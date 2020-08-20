@@ -27,7 +27,7 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 
 # Progress Log - AY20/21 Y2S1
 
-# Week 2
+## Week 2
 - Added Duke's skeleton greeting function
 - Kept the original Duke logo print code in the commit
 - Pushed to github
