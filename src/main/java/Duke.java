@@ -1,24 +1,57 @@
+import java.util.Scanner;
+
 public class Duke {
+    // Main function
     public static void main(String[] args) {
         greet();
+        echo();
+        exit();
     }
 
-    // Level 0 : Basic greeting - Duke greets user and exit
+    // Basic greeting - Duke greets user
     public static void greet(){
-        System.out.println("--------------------------------------");
-        System.out.println("Hello! I'm Duke");
-        System.out.println("What can I do for you?");
-        System.out.println("--------------------------------------");
-        System.out.println("Bye. Hope to see you again soon!");
+        botSpeak("Hey mate! Nice to meet you. I'm Duke\nHow can I help you?");
     }
 
-    // Default : Print Duke logo + greet
-    public static void logo(){
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+    // Basic exit - bot says goodbye
+    public static void exit(){
+        botSpeak("Sad to see you leave. Goodbye! Hope to see you again!");
+    }
+
+    // Echoes back user's commands
+    public static void echo(){
+        String command;
+        boolean saidGoodbye;
+
+        // Echoes back user's command until user says "bye"
+        do {
+            // Collect user's command
+            command = giveCommand();
+
+            // Checks if the command is bye
+            saidGoodbye = command.toLowerCase().equals("bye");
+
+            // Echoes back command (given that it is not "bye")
+            if (!saidGoodbye) {
+                botSpeak(command);
+            }
+        } while(!saidGoodbye);
+    }
+
+    // Prints out what the bot says
+    public static void botSpeak(String sentence){
+        System.out.println("*************************************************************");
+        System.out.println(sentence);
+        System.out.println("*************************************************************");
+    }
+
+    // Allows user to give command
+    public static String giveCommand(){
+        String command;
+        Scanner in = new Scanner(System.in);
+
+        command = in.nextLine();
+
+        return command;
     }
 }
