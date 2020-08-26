@@ -14,18 +14,18 @@ import java.util.Arrays;
  */
 
 public class Duke {
-    // Main function
+    /** Main function */
     public static void main(String[] args) {
         greet();
         processCommand();
     }
 
-    /** Basic greeting - bot greets user */
+    /** Bot greets user */
     public static void greet(){
         botSpeak("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?");
     }
 
-    /** Basic exit - bot says goodbye */
+    /** Bot says goodbye */
     public static void exit(){
         botSpeak("Goodbye & have a nice day! Hope to see you again!");
     }
@@ -36,11 +36,11 @@ public class Duke {
      */
     public static void processCommand(){
         String command;
-        boolean saidGoodbye;
+        boolean saidBye; // Logic flag to track if user said "bye"
 
         // Stores the commands given
         Task[] listOfTasks = new Task[100]; // Can store 100 tasks
-        int taskCount; // Keep track the amount of tasks inputted
+        int taskCount; // Store the amount of tasks inserted
 
         // Repeatedly receive user command until "bye" is given
         do {
@@ -48,25 +48,25 @@ public class Duke {
             command = inputCommand();
 
             // Checks if the command is "bye"
-            saidGoodbye = command.toLowerCase().trim().equals("bye");
+            saidBye = command.toLowerCase().trim().equals("bye");
 
             // Update taskCount value from class-level member in Task
             taskCount = Task.getNumberOfTasks();
 
             // Prints the list of tasks stored if "list" is called
             if (command.toLowerCase().trim().equals("list")){
-                list(listOfTasks);
+                printList(listOfTasks);
             }
-            // Update done status for some tasks
+            // Update done status for indicated task
             else if (command.toLowerCase().contains("done")){
                 doneTask(command , listOfTasks);
             }
             // Store the command into the array as a task if it's none of the above
-            else if (!saidGoodbye){
+            else if (!saidBye){
                 listOfTasks[taskCount] = new Task(command);
                 botSpeak("added: " + command);
             }
-        } while(!saidGoodbye);
+        } while(!saidBye);
 
         exit();
     }
@@ -76,7 +76,7 @@ public class Duke {
      *
      * @param listOfTasks Array containing tasks inserted by user
      */
-    public static void list(Task[] listOfTasks){
+    public static void printList(Task[] listOfTasks){
         int taskCount = Task.getNumberOfTasks();
 
         // Notify the user if no tasks has been added yet
@@ -108,7 +108,7 @@ public class Duke {
             int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
 
             // Make sure task index input is minimally 0 and less than the number of tasks inserted
-            if (taskIndex >= 0 && taskIndex < taskCount){
+            if ((taskIndex >= 0) && (taskIndex < taskCount)){
                 // Inform the user if the task input has already been done
                 if (listOfTasks[taskIndex].isDone){
                     botSpeak("This task has already been done! Good luck completing others!!!");
@@ -121,11 +121,11 @@ public class Duke {
                 }
             }
             else {
-                botSpeak("Invalid index number. Make sure you input the correct task index!");
+                botSpeak("Task not found. Make sure you input the correct task index number!");
             }
         }
         else {
-            botSpeak("No number inserted. Please try again!");
+            botSpeak("No index number inserted. Please try again!");
         }
     }
 
@@ -137,6 +137,7 @@ public class Duke {
      * @return logic true if the "done" command is valid
      */
     public static boolean isDoneValid(String sentence){
+        // Extract the string after "done" and convert it to array of characters
         String stringAfterDone = sentence.substring(sentence.toLowerCase().indexOf("done") + 4).trim();
         char[] charAfterDone = stringAfterDone.toCharArray();
 
@@ -166,7 +167,7 @@ public class Duke {
 
     /** Prints the line divider */
     public static void printDivider(){
-        System.out.println("*********************************************************************");
+        System.out.println("**************************************************************************");
     }
 
     /** Allows user to input command */
