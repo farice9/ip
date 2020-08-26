@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Duke {
     // Main function
@@ -55,24 +56,30 @@ public class Duke {
             }
             // Update done status for some tasks
             else if (command.toLowerCase().contains("done")){
-                // Extract the index number of the task to be marked as done
-                int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
 
-                // Make sure task index input is minimally 0 and less than the number of tasks inserted
-                if (taskIndex >= 0 && taskIndex < taskCount){
-                    // Inform the user if the task input has already been done
-                    if (listOfTasks[taskIndex].isDone){
-                        botSpeak("This task has already been done! Good luck completing others!!!");
+                if (isDoneValid(command)){
+                    // Extract the index number of the task to be marked as done
+                    int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
+
+                    // Make sure task index input is minimally 0 and less than the number of tasks inserted
+                    if (taskIndex >= 0 && taskIndex < taskCount){
+                        // Inform the user if the task input has already been done
+                        if (listOfTasks[taskIndex].isDone){
+                            botSpeak("This task has already been done! Good luck completing others!!!");
+                        }
+                        else {
+                            // Mark the task as done
+                            listOfTasks[taskIndex].isDone = true;
+                            botSpeak("Good job! I have marked this task as done:\n" +
+                                    "[" + listOfTasks[taskIndex].getStatusIcon() + "] " +listOfTasks[taskIndex].description);
+                        }
                     }
                     else {
-                        // Mark the task as done
-                        listOfTasks[taskIndex].isDone = true;
-                        botSpeak("Good job! I have marked this task as done:\n" +
-                                "[" + listOfTasks[taskIndex].getStatusIcon() + "] " +listOfTasks[taskIndex].description);
+                        botSpeak("Invalid index number. Make sure you input the correct task index!");
                     }
                 }
                 else {
-                    botSpeak("Task not found. Make sure you input the correct number!");
+                    botSpeak("No number inserted. Please try again!");
                 }
             }
             // Store the command into the array
@@ -83,6 +90,22 @@ public class Duke {
         } while(!saidGoodbye);
 
         exit();
+    }
+
+    public static boolean isDoneValid(String sentence){
+        String stringAfterDone = sentence.substring(sentence.toLowerCase().indexOf("done") + 4).trim();
+        char[] charAfterDone = stringAfterDone.toCharArray();
+
+        if (stringAfterDone.isEmpty()){
+            return false;
+        }
+        for (char character: charAfterDone){
+            if (!Character.isDigit(character)){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // Prints out what the bot says with divider on top and bottom
