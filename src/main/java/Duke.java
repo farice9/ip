@@ -5,7 +5,6 @@ public class Duke {
     public static void main(String[] args) {
         greet();
         echo();
-        exit();
     }
 
     // Basic greeting - Duke greets user
@@ -18,12 +17,16 @@ public class Duke {
         botSpeak("Sad to see you leave. Goodbye! Hope to see you again!");
     }
 
-    // Echoes back user's commands
+    // Reflect the processing of the commands given by the user
     public static void echo(){
         String command;
         boolean saidGoodbye;
 
-        // Echoes back user's command until user says "bye"
+        // Stores the commands given
+        String[] listOfTasks = new String[100];
+        int taskCount = 0;
+
+        // Repeatedly receive user command until "bye" is given
         do {
             // Collect user's command
             command = giveCommand();
@@ -31,11 +34,25 @@ public class Duke {
             // Checks if the command is bye
             saidGoodbye = command.toLowerCase().equals("bye");
 
-            // Echoes back command (given that it is not "bye")
-            if (!saidGoodbye) {
-                botSpeak(command);
+            // Prints the list of tasks stored if "list" is called
+            if (command.toLowerCase().equals("list")){
+                // Notify the user if nothing has been added yet
+                if (taskCount == 0) {
+                    botSpeak("Nothing has been added yet. Try adding something!");
+                }
+                else {
+                    for (int i=0 ; i < taskCount ; i++){
+                        System.out.println(taskCount + ". " + listOfTasks[i]);
+                    }
+                }
+            }
+            else {
+                listOfTasks[taskCount++] = command;
+                botSpeak("added: " + command);
             }
         } while(!saidGoodbye);
+
+        exit();
     }
 
     // Prints out what the bot says
@@ -53,5 +70,24 @@ public class Duke {
         command = in.nextLine();
 
         return command;
+    }
+
+    public static void processCommand(String command){
+        String[] listOfTasks = new String[100];
+        int taskCount = 0;
+
+        if (command.toLowerCase().equals("bye")){
+            exit();
+        }
+        // Print the list of commands stored if "list" is called
+        else if (command.toLowerCase().equals("list")){
+            for (int i=0 ; i < taskCount ; i++){
+                System.out.println(taskCount + ". " + listOfTasks[i]);
+            }
+        }
+        else {
+            listOfTasks[taskCount++] = command;
+            botSpeak("added: " + command);
+        }
     }
 }
