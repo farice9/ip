@@ -2,6 +2,7 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
+    /** Class-level member to store total number of task */
     private static int numberOfTasks = 0;
 
     public Task(String description) {
