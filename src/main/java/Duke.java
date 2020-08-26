@@ -23,8 +23,8 @@ public class Duke {
         boolean saidGoodbye;
 
         // Stores the commands given
-        String[] listOfTasks = new String[100]; // Can store 100 strings
-        int taskCount = 0; // Keep track the amount of tasks inputted
+        Task[] listOfTasks = new Task[100]; // Can store 100 strings
+        int taskCount; // Keep track the amount of tasks inputted
 
         // Repeatedly receive user command until "bye" is given
         do {
@@ -34,24 +34,27 @@ public class Duke {
             // Checks if the command is bye
             saidGoodbye = command.toLowerCase().equals("bye");
 
+            // Update taskCount value from class-level member in Task
+            taskCount = Task.getNumberOfTasks();
+
             // Prints the list of tasks stored if "list" is called
             if (command.toLowerCase().equals("list")){
                 // Notify the user if nothing has been added yet
-                if (taskCount == 0) {
+                if (taskCount== 0) {
                     botSpeak("Nothing has been added yet. Try adding something!");
                 }
                 // Prints out the list of commands with respective index number
                 else {
                     printDivider();
-                    for (int i=0 ; i < taskCount ; i++){
-                        System.out.println((i+1) + ". " + listOfTasks[i]);
+                    for (int i=0 ; i < taskCount; i++){
+                        System.out.println((i+1) + ". " + listOfTasks[i].description);
                     }
                     printDivider();
                 }
             }
             // Store the command into the array
             else if (!saidGoodbye){
-                listOfTasks[taskCount++] = command;
+                listOfTasks[taskCount] = new Task(command);
                 botSpeak("added: " + command);
             }
         } while(!saidGoodbye);
