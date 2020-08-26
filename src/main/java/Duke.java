@@ -17,7 +17,7 @@ public class Duke {
         botSpeak("Sad to see you leave. Goodbye! Hope to see you again!");
     }
 
-    // Reflect the processing of the commands given by the user
+    // Process the commands given by the user
     public static void echo(){
         String command;
         boolean saidGoodbye;
@@ -29,7 +29,7 @@ public class Duke {
         // Repeatedly receive user command until "bye" is given
         do {
             // Collect user's command
-            command = giveCommand();
+            command = inputCommand();
 
             // Checks if the command is bye
             saidGoodbye = command.toLowerCase().equals("bye");
@@ -48,7 +48,7 @@ public class Duke {
                     printDivider();
                 }
             }
-            else {
+            else if (!saidGoodbye){
                 listOfTasks[taskCount++] = command;
                 botSpeak("added: " + command);
             }
@@ -69,8 +69,8 @@ public class Duke {
         System.out.println("*************************************************************");
     }
 
-    // Allows user to give command
-    public static String giveCommand(){
+    // Allows user to input command
+    public static String inputCommand(){
         String command;
         Scanner in = new Scanner(System.in);
 
