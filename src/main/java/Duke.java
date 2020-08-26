@@ -14,7 +14,7 @@ public class Duke {
 
     // Basic exit - bot says goodbye
     public static void exit(){
-        botSpeak("Sad to see you leave. Goodbye! Hope to see you again!");
+        botSpeak("Goodbye & have a nice day! Hope to see you again!");
     }
 
     // Process the commands given by the user
@@ -32,13 +32,13 @@ public class Duke {
             command = inputCommand();
 
             // Checks if the command is bye
-            saidGoodbye = command.toLowerCase().equals("bye");
+            saidGoodbye = command.toLowerCase().trim().equals("bye");
 
             // Update taskCount value from class-level member in Task
             taskCount = Task.getNumberOfTasks();
 
             // Prints the list of tasks stored if "list" is called
-            if (command.toLowerCase().equals("list")){
+            if (command.toLowerCase().trim().equals("list")){
                 // Notify the user if nothing has been added yet
                 if (taskCount== 0) {
                     botSpeak("Nothing has been added yet. Try adding something!");
@@ -46,10 +46,33 @@ public class Duke {
                 // Prints out the list of commands with respective index number
                 else {
                     printDivider();
+                    System.out.println("Here are the tasks in your list:");
                     for (int i=0 ; i < taskCount; i++){
-                        System.out.println((i+1) + ". " + listOfTasks[i].description);
+                        System.out.println((i+1) + "." + "[" + listOfTasks[i].getStatusIcon() + "] " + listOfTasks[i].description);
                     }
                     printDivider();
+                }
+            }
+            // Update done status for some tasks
+            else if (command.toLowerCase().contains("done")){
+                // Extract the index number of the task to be marked as done
+                int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
+
+                // Make sure task index input is minimally 0 and less than the number of tasks inserted
+                if (taskIndex >= 0 && taskIndex < taskCount){
+                    // Inform the user if the task input has already been done
+                    if (listOfTasks[taskIndex].isDone){
+                        botSpeak("This task has already been done! Good luck completing others!!!");
+                    }
+                    else {
+                        // Mark the task as done
+                        listOfTasks[taskIndex].isDone = true;
+                        botSpeak("Good job! I have marked this task as done:\n" +
+                                "[" + listOfTasks[taskIndex].getStatusIcon() + "] " +listOfTasks[taskIndex].description);
+                    }
+                }
+                else {
+                    botSpeak("Task not found. Make sure you input the correct number!");
                 }
             }
             // Store the command into the array
