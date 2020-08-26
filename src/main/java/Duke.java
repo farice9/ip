@@ -4,7 +4,7 @@ public class Duke {
     // Main function
     public static void main(String[] args) {
         greet();
-        echo();
+        processCommand();
     }
 
     // Basic greeting - Duke greets user
@@ -18,7 +18,7 @@ public class Duke {
     }
 
     // Process the commands given by the user
-    public static void echo(){
+    public static void processCommand(){
         String command;
         boolean saidGoodbye;
 
@@ -40,6 +40,7 @@ public class Duke {
                 if (taskCount == 0) {
                     botSpeak("Nothing has been added yet. Try adding something!");
                 }
+                // Prints out the list of commands with respective index number
                 else {
                     printDivider();
                     for (int i=0 ; i < taskCount ; i++){
@@ -48,6 +49,7 @@ public class Duke {
                     printDivider();
                 }
             }
+            // Store the command into the array
             else if (!saidGoodbye){
                 listOfTasks[taskCount++] = command;
                 botSpeak("added: " + command);
@@ -66,7 +68,7 @@ public class Duke {
 
     // Prints the line divider
     public static void printDivider(){
-        System.out.println("*************************************************************");
+        System.out.println("*********************************************************************");
     }
 
     // Allows user to input command
