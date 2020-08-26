@@ -24,7 +24,7 @@ public class Duke {
         boolean saidGoodbye;
 
         // Stores the commands given
-        Task[] listOfTasks = new Task[100]; // Can store 100 strings
+        Task[] listOfTasks = new Task[100]; // Can store 100 tasks
         int taskCount; // Keep track the amount of tasks inputted
 
         // Repeatedly receive user command until "bye" is given
@@ -32,7 +32,7 @@ public class Duke {
             // Collect user's command
             command = inputCommand();
 
-            // Checks if the command is bye
+            // Checks if the command is "bye"
             saidGoodbye = command.toLowerCase().trim().equals("bye");
 
             // Update taskCount value from class-level member in Task
@@ -82,7 +82,7 @@ public class Duke {
                     botSpeak("No number inserted. Please try again!");
                 }
             }
-            // Store the command into the array
+            // Store the command into the array as a task if it's none of the above
             else if (!saidGoodbye){
                 listOfTasks[taskCount] = new Task(command);
                 botSpeak("added: " + command);
