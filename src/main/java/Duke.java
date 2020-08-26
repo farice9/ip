@@ -40,19 +40,7 @@ public class Duke {
 
             // Prints the list of tasks stored if "list" is called
             if (command.toLowerCase().trim().equals("list")){
-                // Notify the user if nothing has been added yet
-                if (taskCount== 0) {
-                    botSpeak("Nothing has been added yet. Try adding something!");
-                }
-                // Prints out the list of commands with respective index number
-                else {
-                    printDivider();
-                    System.out.println("Here are the tasks in your list:");
-                    for (int i=0 ; i < taskCount; i++){
-                        System.out.println((i+1) + "." + "[" + listOfTasks[i].getStatusIcon() + "] " + listOfTasks[i].description);
-                    }
-                    printDivider();
-                }
+                list(listOfTasks);
             }
             // Update done status for some tasks
             else if (command.toLowerCase().contains("done")){
@@ -92,6 +80,26 @@ public class Duke {
         exit();
     }
 
+    // Prints out the list of tasks stored
+    public static void list(Task[] listOfTasks){
+        int taskCount = Task.getNumberOfTasks();
+
+        // Notify the user if nothing has been added yet
+        if (taskCount== 0) {
+            botSpeak("Nothing has been added yet. Try adding something!");
+        }
+        // Prints out the list of commands with respective index number
+        else {
+            printDivider();
+            System.out.println("Here are the tasks in your list:");
+            for (int i=0 ; i < taskCount; i++){
+                System.out.println((i+1) + "." + "[" + listOfTasks[i].getStatusIcon() + "] " + listOfTasks[i].description);
+            }
+            printDivider();
+        }
+    }
+
+    // Check if 
     public static boolean isDoneValid(String sentence){
         String stringAfterDone = sentence.substring(sentence.toLowerCase().indexOf("done") + 4).trim();
         char[] charAfterDone = stringAfterDone.toCharArray();
