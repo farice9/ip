@@ -41,9 +41,11 @@ public class Duke {
                     botSpeak("Nothing has been added yet. Try adding something!");
                 }
                 else {
+                    printDivider();
                     for (int i=0 ; i < taskCount ; i++){
-                        System.out.println(taskCount + ". " + listOfTasks[i]);
+                        System.out.println((i+1) + ". " + listOfTasks[i]);
                     }
+                    printDivider();
                 }
             }
             else {
@@ -55,10 +57,15 @@ public class Duke {
         exit();
     }
 
-    // Prints out what the bot says
+    // Prints out what the bot says with divider on top and bottom
     public static void botSpeak(String sentence){
-        System.out.println("*************************************************************");
+        printDivider();
         System.out.println(sentence);
+        printDivider();
+    }
+
+    // Prints the line divider
+    public static void printDivider(){
         System.out.println("*************************************************************");
     }
 
@@ -70,24 +77,5 @@ public class Duke {
         command = in.nextLine();
 
         return command;
-    }
-
-    public static void processCommand(String command){
-        String[] listOfTasks = new String[100];
-        int taskCount = 0;
-
-        if (command.toLowerCase().equals("bye")){
-            exit();
-        }
-        // Print the list of commands stored if "list" is called
-        else if (command.toLowerCase().equals("list")){
-            for (int i=0 ; i < taskCount ; i++){
-                System.out.println(taskCount + ". " + listOfTasks[i]);
-            }
-        }
-        else {
-            listOfTasks[taskCount++] = command;
-            botSpeak("added: " + command);
-        }
     }
 }
