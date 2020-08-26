@@ -7,7 +7,7 @@ public class Duke {
         processCommand();
     }
 
-    // Basic greeting - Duke greets user
+    // Basic greeting - bot greets user
     public static void greet(){
         botSpeak("Hey mate! Nice to meet you. I'm Duke\nHow can I help you?");
     }
@@ -23,8 +23,8 @@ public class Duke {
         boolean saidGoodbye;
 
         // Stores the commands given
-        String[] listOfTasks = new String[100];
-        int taskCount = 0;
+        String[] listOfTasks = new String[100]; // Can store 100 strings
+        int taskCount = 0; // Keep track the amount of tasks inputted
 
         // Repeatedly receive user command until "bye" is given
         do {
