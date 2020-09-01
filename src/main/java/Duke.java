@@ -14,18 +14,24 @@ import java.util.Arrays;
  */
 
 public class Duke {
-    /** Main function */
+    /**
+     * Main function
+     */
     public static void main(String[] args) {
         greet();
         processCommand();
     }
 
-    /** Bot greets user */
+    /**
+     * Prints greet user message
+     */
     public static void greet(){
         botSpeak("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?");
     }
 
-    /** Bot says goodbye */
+    /**
+     * Prints goodbye message
+     */
     public static void exit(){
         botSpeak("Goodbye & have a nice day! Hope to see you again!");
     }
@@ -130,7 +136,7 @@ public class Duke {
     }
 
     /**
-     * Check if the "done" command input by user is correct
+     * Checks if the "done" command input by user is correct
      * It is correct if it does not have blank space and non-digits
      *
      * @param sentence String of command inserted by user
@@ -165,12 +171,16 @@ public class Duke {
         printDivider();
     }
 
-    /** Prints the line divider */
+    /**
+     * Prints the line divider
+     */
     public static void printDivider(){
         System.out.println("**************************************************************************");
     }
 
-    /** Allows user to input command */
+    /**
+     * Allows user to input command
+     */
     public static String inputCommand(){
         String command;
         Scanner in = new Scanner(System.in);
