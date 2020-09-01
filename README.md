@@ -31,3 +31,19 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 - Added Duke's skeleton greeting function
 - Kept the original Duke logo print code in the commit
 - Pushed to github
+
+## Week 3
+### Level 1
+- Implemented greet, echo and exit functions to the bot
+- The bot will repeat what the user inputs and exit when user says "bye"
+
+### Level 2
+- Implemented adding commands and list commands function
+- The bot can store user's input and prints them out when requested
+
+### Level 3
+- Introduced a new Task class
+- Implemented a mark tasks as done function
+- Listing now shows if the task is done/not done
+- Added extra checks so that commands in upper-case are accepted as well
+- Added extra checks to ensure the "done" parameter inserted by user is legible
