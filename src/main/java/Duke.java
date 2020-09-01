@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * An interactive bot that performs various tasks based on user command
  *
- * Last updated : 26 August 2020
+ * Last updated : 2 September 2020
  *
  * Functions implemented:
  * 1) Adding tasks to a list
@@ -83,6 +83,8 @@ public class Duke {
         String task;
         int dateStringIndex; // Stores the index of the "/"
         String date;
+        boolean isDateRequired;
+        boolean isDateIncluded = false;
 
         // Check what is the type of the task given
         if (initialCommand.startsWith("todo")){
@@ -98,38 +100,54 @@ public class Duke {
             taskType = TaskType.NORMAL;
         }
 
+        // Find the part of string where user types the date
+        dateStringIndex = command.indexOf("/");
+
+        // Date is required when its a deadline/event
+        isDateRequired = (taskType == TaskType.DEADLINE) || (taskType == TaskType.EVENT);
+
+        if (isDateRequired && (dateStringIndex > 0)) {
+            isDateIncluded = true;
+        }
+
+        // Extract the date of the deadline/event
+        date = command.substring(dateStringIndex + 3).trim();
+
         // Creates new object based on the type of the task
         switch (taskType){
         case TODO:
             // Extract the string after "todo"
             task = command.trim().substring("todo".length()).trim();
-
             listOfTasks[taskCount] = new ToDo(task);
             break;
         case DEADLINE:
-            // Extract the string between "deadline" and "/"
-            dateStringIndex = command.indexOf("/");
-            task = command.trim().substring("deadline".length(),dateStringIndex).trim();
-            date = command.substring(dateStringIndex + 1).trim();
-
-            listOfTasks[taskCount] = new Deadline(task, date);
+            if (isDateIncluded) {
+                // Extract the string between "deadline" and "/"
+                task = command.trim().substring("deadline".length(),dateStringIndex).trim();
+                listOfTasks[taskCount] = new Deadline(task, date);
+            }
             break;
         case EVENT:
-            dateStringIndex = command.indexOf("/");
-            task = command.trim().substring("event".length(),dateStringIndex).trim();
-            date = command.substring(dateStringIndex + 1).trim();
-
-            listOfTasks[taskCount] = new Event(task, date);
+            if (isDateIncluded) {
+                task = command.trim().substring("event".length(),dateStringIndex).trim();
+                listOfTasks[taskCount] = new Event(task, date);
+            }
             break;
         default:
             listOfTasks[taskCount] = new Task(command);
         }
 
-        printDivider();
-        System.out.println("Alrighty! I've added the following task:");
-        System.out.println(listOfTasks[taskCount]);
-        Task.printNumberOfTasks(); // Inform user how many tasks they have
-        printDivider();
+        // Task is added successfully when it does not require a date or if the date is included
+        if (!isDateRequired || isDateIncluded) {
+            printDivider();
+            System.out.println("Alrighty! I've added the following task:");
+            System.out.println(listOfTasks[taskCount]);
+            Task.printNumberOfTasks(); // Inform user how many tasks they have
+            printDivider();
+        }
+        else {
+            botSpeak("Task not added. Please indicate a date using /by or /at followed by the date!");
+        }
     }
 
     /**
@@ -178,7 +196,7 @@ public class Duke {
                     // Mark the task as done
                     listOfTasks[taskIndex].isDone = true;
                     botSpeak("Good job! I have marked this task as done:\n" +
-                            "[" + listOfTasks[taskIndex].getStatusIcon() + "] " +listOfTasks[taskIndex].description);
+                            listOfTasks[taskIndex]);
                 }
             }
             else {
