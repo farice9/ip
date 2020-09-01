@@ -69,12 +69,67 @@ public class Duke {
             }
             // Store the command into the array as a task if it's none of the above
             else if (!saidBye){
-                listOfTasks[taskCount] = new Task(command);
-                botSpeak("added: " + command);
+                addTask(command, listOfTasks, taskCount);
             }
         } while(!saidBye);
 
         exit();
+    }
+
+    private static void addTask(String command, Task[] listOfTasks, int taskCount) {
+        //listOfTasks[taskCount] = new Task(command);
+        TaskType taskType;
+        String initialCommand = command.trim().toLowerCase();
+        String task;
+        int dateStringIndex; // Stores the index of the "/"
+        String date;
+
+        // Check what is the type of the task given
+        if (initialCommand.startsWith("todo")){
+            taskType = TaskType.TODO;
+        }
+        else if (initialCommand.startsWith("deadline")){
+            taskType = TaskType.DEADLINE;
+        }
+        else if (initialCommand.startsWith("event")){
+            taskType = TaskType.EVENT;
+        }
+        else {
+            taskType = TaskType.NORMAL;
+        }
+
+        // Creates new object based on the type of the task
+        switch (taskType){
+        case TODO:
+            // Extract the string after "todo"
+            task = command.trim().substring("todo".length()).trim();
+
+            listOfTasks[taskCount] = new ToDo(task);
+            break;
+        case DEADLINE:
+            // Extract the string between "deadline" and "/"
+            dateStringIndex = command.indexOf("/");
+            task = command.trim().substring("deadline".length(),dateStringIndex).trim();
+            date = command.substring(dateStringIndex + 1).trim();
+
+            listOfTasks[taskCount] = new Deadline(task, date);
+            break;
+        case EVENT:
+            dateStringIndex = command.indexOf("/");
+            task = command.trim().substring("event".length(),dateStringIndex).trim();
+            date = command.substring(dateStringIndex + 1).trim();
+
+            listOfTasks[taskCount] = new Event(task, date);
+            break;
+        default:
+            listOfTasks[taskCount] = new Task(command);
+        }
+
+        printDivider();
+        System.out.println("Alrighty! I've added the following task:");
+        System.out.println(listOfTasks[taskCount]);
+        Task.printNumberOfTasks(); // Inform user how many tasks they have
+        printDivider();
     }
 
     /**
@@ -94,7 +149,7 @@ public class Duke {
             printDivider();
             System.out.println("Here are the tasks in your list:");
             for (int i=0 ; i < taskCount; i++){
-                System.out.println((i+1) + "." + "[" + listOfTasks[i].getStatusIcon() + "] " + listOfTasks[i].description);
+                System.out.println((i+1) + "." + listOfTasks[i]);
             }
             printDivider();
         }
