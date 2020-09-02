@@ -10,6 +10,7 @@ import java.util.Arrays;
  * 1) Adding tasks to a list
  * 2) Printing the list of tasks stored
  * 3) Indicating which task is done
+ * 4) Different type of tasks (event, deadline, todo)
  *
  */
 
@@ -20,6 +21,7 @@ public class Duke {
     public static void main(String[] args) {
         greet();
         processCommand();
+        exit();
     }
 
     /**
@@ -73,9 +75,16 @@ public class Duke {
             }
         } while(!saidBye);
 
-        exit();
+
     }
 
+    /**
+     * Identifies the type of task given by user and add into the list
+     *
+     * @param command user input at terminal
+     * @param listOfTasks Array containing tasks inserted by user
+     * @param taskCount Store the amount of tasks inserted
+     */
     private static void addTask(String command, Task[] listOfTasks, int taskCount) {
         //listOfTasks[taskCount] = new Task(command);
         TaskType taskType;
@@ -111,7 +120,7 @@ public class Duke {
         }
 
         // Extract the date of the deadline/event
-        date = command.substring(dateStringIndex + 3).trim();
+        date = command.substring(dateStringIndex + "/by".length()).trim();
 
         // Creates new object based on the type of the task
         switch (taskType){

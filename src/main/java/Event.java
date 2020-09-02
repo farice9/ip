@@ -1,3 +1,6 @@
+/**
+ * Subclass of Task, for events happening on certain time
+ */
 public class Event extends Task {
     protected String at;
 
