@@ -1,5 +1,5 @@
 /**
- * Subclass of Task, especially for tasks with deadline
+ * Subclass of Task, for tasks with deadline
  */
 public class Deadline extends Task {
     protected String by;

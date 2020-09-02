@@ -74,8 +74,6 @@ public class Duke {
                 addTask(command, listOfTasks, taskCount);
             }
         } while(!saidBye);
-
-
     }
 
     /**
@@ -86,35 +84,20 @@ public class Duke {
      * @param taskCount Store the amount of tasks inserted
      */
     private static void addTask(String command, Task[] listOfTasks, int taskCount) {
-        //listOfTasks[taskCount] = new Task(command);
-        TaskType taskType;
-        String initialCommand = command.trim().toLowerCase();
         String task;
-        int dateStringIndex; // Stores the index of the "/"
         String date;
-        boolean isDateRequired;
         boolean isDateIncluded = false;
 
-        // Check what is the type of the task given
-        if (initialCommand.startsWith("todo")){
-            taskType = TaskType.TODO;
-        }
-        else if (initialCommand.startsWith("deadline")){
-            taskType = TaskType.DEADLINE;
-        }
-        else if (initialCommand.startsWith("event")){
-            taskType = TaskType.EVENT;
-        }
-        else {
-            taskType = TaskType.NORMAL;
-        }
+        // Identifies if the task is
+        TaskType taskType = getTaskType(command);
 
         // Find the part of string where user types the date
-        dateStringIndex = command.indexOf("/");
+        int dateStringIndex = command.indexOf("/");
 
         // Date is required when its a deadline/event
-        isDateRequired = (taskType == TaskType.DEADLINE) || (taskType == TaskType.EVENT);
+        boolean isDateRequired = (taskType == TaskType.DEADLINE) || (taskType == TaskType.EVENT);
 
+        // Date is included if "/" is found in the user's command
         if (isDateRequired && (dateStringIndex > 0)) {
             isDateIncluded = true;
         }
@@ -146,6 +129,19 @@ public class Duke {
             listOfTasks[taskCount] = new Task(command);
         }
 
+        // Informs user if their task is added succesfully
+        printAddResult(listOfTasks, taskCount, isDateRequired, isDateIncluded);
+    }
+
+    /**
+     * Prints the result of adding task (either successful or unsuccessful)
+     *
+     * @param listOfTasks Array containing tasks inserted by user
+     * @param taskCount Number of tasks inserted
+     * @param isDateRequired Determine if a date is required
+     * @param isDateIncluded Whether date is included for deadline/event
+     */
+    private static void printAddResult(Task[] listOfTasks, int taskCount, boolean isDateRequired, boolean isDateIncluded) {
         // Task is added successfully when it does not require a date or if the date is included
         if (!isDateRequired || isDateIncluded) {
             printDivider();
@@ -157,6 +153,34 @@ public class Duke {
         else {
             botSpeak("Task not added. Please indicate a date using /by or /at followed by the date!");
         }
+    }
+
+    /**
+     * Identifies and return the type of task the user has inserted
+     *
+     * @param command Command that the user input
+     * @return the type of the task (event, deadline, todo)
+     */
+    private static TaskType getTaskType(String command) {
+        TaskType taskType;
+
+        String commandModified = command.trim().toLowerCase();
+
+        // Check what is the type of the task given
+        if (commandModified.startsWith("todo")){
+            taskType = TaskType.TODO;
+        }
+        else if (commandModified.startsWith("deadline")){
+            taskType = TaskType.DEADLINE;
+        }
+        else if (commandModified.startsWith("event")){
+            taskType = TaskType.EVENT;
+        }
+        else {
+            // taskType is NORMAL when user did not input specific type at the start
+            taskType = TaskType.NORMAL;
+        }
+        return taskType;
     }
 
     /**
@@ -195,18 +219,9 @@ public class Duke {
             // Extract the index number of the task to be marked as done
             int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
 
-            // Make sure task index input is minimally 0 and less than the number of tasks inserted
+            // Make task as done if the task index inputted is at least 0 and less than the number of tasks inserted
             if ((taskIndex >= 0) && (taskIndex < taskCount)){
-                // Inform the user if the task input has already been done
-                if (listOfTasks[taskIndex].isDone){
-                    botSpeak("This task has already been done! Good luck completing others!!!");
-                }
-                else {
-                    // Mark the task as done
-                    listOfTasks[taskIndex].isDone = true;
-                    botSpeak("Good job! I have marked this task as done:\n" +
-                            listOfTasks[taskIndex]);
-                }
+                markAsDone(listOfTasks, taskIndex);
             }
             else {
                 botSpeak("Task not found. Make sure you input the correct task index number!");
@@ -218,8 +233,27 @@ public class Duke {
     }
 
     /**
+     * Mark the task in the list as done
+     *
+     * @param listOfTasks Array containing tasks inserted by user
+     * @param taskIndex Index of the task indicated
+     */
+    private static void markAsDone(Task[] listOfTasks, int taskIndex) {
+        // Inform the user if the task input has already been done
+        if (listOfTasks[taskIndex].isDone){
+            botSpeak("This task has already been done! Good luck completing others!!!");
+        }
+        else {
+            // Mark the task as done
+            listOfTasks[taskIndex].isDone = true;
+            botSpeak("Good job! I have marked this task as done:\n" +
+                    listOfTasks[taskIndex]);
+        }
+    }
+
+    /**
      * Checks if the "done" command input by user is correct
-     * It is correct if it does not have blank space and non-digits
+     * It is correct if it does not have blank space and non-digits after "done" input
      *
      * @param sentence String of command inserted by user
      * @return logic true if the "done" command is valid
@@ -257,7 +291,7 @@ public class Duke {
      * Prints the line divider
      */
     public static void printDivider(){
-        System.out.println("**************************************************************************");
+        System.out.println("*******************************************************************************");
     }
 
     /**

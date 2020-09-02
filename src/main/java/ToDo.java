@@ -1,5 +1,5 @@
 /**
- * Subclass of Task
+ * Subclass of Task, for basic tasks that needs to be done
  */
 public class ToDo extends Task {
 
