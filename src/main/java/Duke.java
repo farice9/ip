@@ -64,13 +64,11 @@ public class Duke {
             // Prints the list of tasks stored if "list" is called
             if (command.toLowerCase().trim().equals("list")){
                 printList(listOfTasks);
-            }
-            // Update done status for indicated task
-            else if (command.toLowerCase().contains("done")){
+            } else if (command.toLowerCase().contains("done")){
+                // Update done status for indicated task
                 doneTask(command , listOfTasks);
-            }
-            // Store the command into the array as a task if it's none of the above
-            else if (!saidBye){
+            } else if (!saidBye){
+                // Store the command into the array as a task if it's none of the above
                 addTask(command, listOfTasks, taskCount);
             }
         } while(!saidBye);
@@ -149,8 +147,7 @@ public class Duke {
             System.out.println(listOfTasks[taskCount]);
             Task.printNumberOfTasks(); // Inform user how many tasks they have
             printDivider();
-        }
-        else {
+        } else {
             botSpeak("Task not added. Please indicate a date using /by or /at followed by the date!");
         }
     }
@@ -169,14 +166,11 @@ public class Duke {
         // Check what is the type of the task given
         if (commandModified.startsWith("todo")){
             taskType = TaskType.TODO;
-        }
-        else if (commandModified.startsWith("deadline")){
+        } else if (commandModified.startsWith("deadline")){
             taskType = TaskType.DEADLINE;
-        }
-        else if (commandModified.startsWith("event")){
+        } else if (commandModified.startsWith("event")){
             taskType = TaskType.EVENT;
-        }
-        else {
+        } else {
             // taskType is NORMAL when user did not input specific type at the start
             taskType = TaskType.NORMAL;
         }
@@ -194,9 +188,8 @@ public class Duke {
         // Notify the user if no tasks has been added yet
         if (taskCount== 0) {
             botSpeak("No tasks has been added yet. Try adding something!");
-        }
-        // Prints out the list of commands with respective index number
-        else {
+        } else {
+            // Prints out the list of commands with respective index number
             printDivider();
             System.out.println("Here are the tasks in your list:");
             for (int i=0 ; i < taskCount; i++){
@@ -222,12 +215,10 @@ public class Duke {
             // Make task as done if the task index inputted is at least 0 and less than the number of tasks inserted
             if ((taskIndex >= 0) && (taskIndex < taskCount)){
                 markAsDone(listOfTasks, taskIndex);
-            }
-            else {
+            } else {
                 botSpeak("Task not found. Make sure you input the correct task index number!");
             }
-        }
-        else {
+        } else {
             botSpeak("No index number inserted. Please try again!");
         }
     }
@@ -242,8 +233,7 @@ public class Duke {
         // Inform the user if the task input has already been done
         if (listOfTasks[taskIndex].isDone){
             botSpeak("This task has already been done! Good luck completing others!!!");
-        }
-        else {
+        } else {
             // Mark the task as done
             listOfTasks[taskIndex].isDone = true;
             botSpeak("Good job! I have marked this task as done:\n" +
