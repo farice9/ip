@@ -1,5 +1,8 @@
+package duke;
+
 import exceptions.InvalidCommandException;
 import exceptions.InvalidDateException;
+import tasks.*;
 
 import java.util.Scanner;
 
@@ -59,7 +62,7 @@ public class Duke {
             // Checks if the command is "bye"
             saidBye = command.toLowerCase().trim().equals("bye");
 
-            // Update taskCount value from class-level member in Task
+            // Update taskCount value from class-level member in tasks.Task
             taskCount = Task.getNumberOfTasks();
 
             // Prints the list of tasks stored if "list" is called
@@ -194,7 +197,7 @@ public class Duke {
             if ((taskIndex >= 0) && (taskIndex < taskCount)) {
                 markAsDone(listOfTasks, taskIndex);
             } else {
-                botSpeak("Task not found. Make sure you input the correct task index number!");
+                botSpeak("tasks.Task not found. Make sure you input the correct task index number!");
             }
         } else {
             botSpeak("No index number inserted. Please try again!");

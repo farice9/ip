@@ -1,4 +1,4 @@
-# Duke project template
+# duke.Duke project template
 
 This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
 
@@ -15,7 +15,7 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
    1. Click `Open or Import`.
    1. Select the project directory, and click `OK`
    1. If there are any further prompts, accept the defaults.
-1. After the importing is complete, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()`. If the setup is correct, you should see something like the below:
+1. After the importing is complete, locate the `src/main/java/duke.Duke.java` file, right-click it, and choose `Run duke.Duke.main()`. If the setup is correct, you should see something like the below:
    ```
    Hello from
     ____        _        
@@ -28,8 +28,8 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 # Progress Log - AY20/21 Y2S1
 
 ## Week 2
-- Added Duke's skeleton greeting function
-- Kept the original Duke logo print code in the commit
+- Added duke.Duke's skeleton greeting function
+- Kept the original duke.Duke logo print code in the commit
 - Pushed to github
 
 ## Week 3
@@ -42,7 +42,7 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 - The bot can store user's input and prints them out when requested
 
 ### Level 3
-- Introduced a new Task class
+- Introduced a new tasks.Task class
 - Implemented a mark tasks as done function
 - Listing now shows if the task is done/not done
 - Added extra checks so that commands in upper-case are accepted as well

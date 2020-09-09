@@ -1,19 +1,22 @@
+package tasks;
+
+import duke.Duke;
 import exceptions.InvalidCommandException;
 
 /**
- * The Task class contains different attributes of a task stored by user
+ * The tasks.Task class contains different attributes of a task stored by user
  *
  * Attributes : description of the task, is the task done
  */
 public class Task {
+    public boolean isDone;
     protected String description;
-    protected boolean isDone;
 
     /** Class-level member to store total number of task */
     protected static int numberOfTasks = 0;
 
     /**
-     * Constructor for Task class
+     * Constructor for tasks.Task class
      *
      * @param description description of the task inserted by the user
      */

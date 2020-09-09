@@ -1,3 +1,5 @@
+package tasks;
+
 /**
  * Enumeration of different task types
  */

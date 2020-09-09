@@ -1,8 +1,10 @@
+package tasks;
+
 import exceptions.InvalidCommandException;
 import exceptions.InvalidDateException;
 
 /**
- * Subclass of Task, for tasks with deadline
+ * Subclass of tasks.Task, for tasks with deadline
  */
 public class Deadline extends Task {
     protected String date;

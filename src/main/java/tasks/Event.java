@@ -1,14 +1,16 @@
+package tasks;
+
 import exceptions.InvalidCommandException;
 import exceptions.InvalidDateException;
 
 /**
- * Subclass of Task, for events happening on certain time
+ * Subclass of tasks.Task, for events happening on certain time
  */
 public class Event extends Task {
     protected String date;
 
     /**
-     * Constructor for Event class type
+     * Constructor for tasks.Event class type
      *
      * @param description command inserted by user
      * @throws InvalidCommandException Exception caused by empty command
