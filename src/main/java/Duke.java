@@ -1,5 +1,7 @@
+import exceptions.InvalidCommandException;
+import exceptions.InvalidDateException;
+
 import java.util.Scanner;
-import java.util.Arrays;
 
 /**
  * An interactive bot that performs various tasks based on user command

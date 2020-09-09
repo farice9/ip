@@ -1,3 +1,5 @@
+import exceptions.InvalidCommandException;
+
 /**
  * The Task class contains different attributes of a task stored by user
  *

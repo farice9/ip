@@ -1,3 +1,5 @@
+import exceptions.InvalidCommandException;
+
 /**
  * Subclass of Task, for basic tasks that needs to be done
  */
