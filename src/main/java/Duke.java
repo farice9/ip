@@ -54,7 +54,6 @@ public class Duke {
             // Collect user's command
             command = inputCommand();
 
-
             // Checks if the command is "bye"
             saidBye = command.toLowerCase().trim().equals("bye");
 
@@ -73,8 +72,6 @@ public class Duke {
                     addTask(command, listOfTasks, taskCount);
                 } catch (InvalidCommandException e) {
                     botSpeak("☹ Sorry but I don't understand that at all. Try again?");
-                } catch (StringIndexOutOfBoundsException e) {
-                    botSpeak("Date not found for deadline/event! Please add it using /by or /at");
                 }
             }
         } while (!saidBye);
@@ -123,12 +120,12 @@ public class Duke {
         case DEADLINE:
             try {
                 // Extract the string between "deadline" and "/"
-                task = command.trim().substring("deadline".length(), dateStringIndex).trim();
-                listOfTasks[taskCount] = new Deadline(task, date);
+                task = command.trim().substring("deadline".length()).trim();
+                listOfTasks[taskCount] = new Deadline(task);
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
-                botSpeak("No date is found for this deadline! Try adding a date after /by or /at");
+                botSpeak("No date is found for this deadline! Try adding a date after /by");
             }
             break;
         case EVENT:
@@ -138,7 +135,7 @@ public class Duke {
             } catch (InvalidCommandException e){
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
-                botSpeak("No date is found for this deadline! Try adding a date after /at or /at");
+                botSpeak("No date is found for this deadline! Try adding a date after /at");
             }
             break;
         default:
