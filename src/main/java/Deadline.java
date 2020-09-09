@@ -4,9 +4,15 @@
 public class Deadline extends Task {
     protected String date;
 
-    public Deadline(String description, String date){
+    public Deadline(String description, String date) throws InvalidCommandException, InvalidDateException {
         super(description);
-        this.date = date;
+        System.out.println(date);
+        if (date.isEmpty()){
+            throw new InvalidDateException();
+        } else {
+            this.date = date;
+            printAddResult();
+        }
     }
 
     @Override

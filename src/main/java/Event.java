@@ -4,9 +4,14 @@
 public class Event extends Task {
     protected String date;
 
-    public Event(String description, String at){
+    public Event(String description, String date) throws InvalidCommandException, InvalidDateException {
         super(description);
-        this.date = date;
+        if (date.isEmpty()){
+            throw new InvalidDateException();
+        } else {
+            this.date = date;
+            printAddResult();
+        }
     }
 
     @Override

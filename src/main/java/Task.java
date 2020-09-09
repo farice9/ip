@@ -15,10 +15,22 @@ public class Task {
      *
      * @param description description of the task
      */
-    public Task(String description) {
-        this.description = description;
-        this.isDone = false;
-        numberOfTasks++;
+    public Task(String description) throws InvalidCommandException {
+        if (description.isEmpty()) {
+            throw new InvalidCommandException();
+        } else {
+            this.description = description;
+            this.isDone = false;
+            numberOfTasks++;
+        }
+    }
+
+    protected void printAddResult() {
+        Duke.printDivider();
+        System.out.println("Alrighty! I've added the following task:");
+        System.out.println(this);
+        Task.printNumberOfTasks(); // Inform user how many tasks they have
+        Duke.printDivider();
     }
 
     /**
