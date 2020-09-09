@@ -24,11 +24,14 @@ public class Task {
         }
     }
 
+    /**
+     * Informs the user the details of the task they added (if successful)
+     */
     protected void printAddResult() {
         Duke.printDivider();
         System.out.println("Alrighty! I've added the following task:");
         System.out.println(this);
-        Task.printNumberOfTasks(); // Inform user how many tasks they have
+        printNumberOfTasks(); // Inform user how many tasks they have
         Duke.printDivider();
     }
 
@@ -59,6 +62,6 @@ public class Task {
      * Prints the number of tasks
      */
     public static void printNumberOfTasks(){
-        System.out.println("Now you have " + numberOfTasks + " tasks in the list.");
+        System.out.println("Now you have " + numberOfTasks + " task(s) in the list.");
     }
 }

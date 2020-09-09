@@ -3,6 +3,12 @@
  */
 public class ToDo extends Task {
 
+    /**
+     * Constructor class for ToDo class
+     *
+     * @param description command inserted by the user after "todo" input
+     * @throws InvalidCommandException Exception caused by empty command
+     */
     public ToDo(String description) throws InvalidCommandException {
         super(description);
         numberOfTasks++;

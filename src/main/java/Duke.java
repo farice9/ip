@@ -3,9 +3,9 @@ import java.util.Arrays;
 
 /**
  * An interactive bot that performs various tasks based on user command
- * <p>
- * Last updated : 2 September 2020
- * <p>
+ *
+ * Last updated : 9 September 2020
+ *
  * Functions implemented:
  * 1) Adding tasks to a list
  * 2) Printing the list of tasks stored
@@ -71,6 +71,7 @@ public class Duke {
                 try {
                     addTask(command, listOfTasks, taskCount);
                 } catch (InvalidCommandException e) {
+                    // Informs user when command is inserted without stating the type of task
                     botSpeak("☹ Sorry but I don't understand that at all. Try again?");
                 }
             }
@@ -83,6 +84,7 @@ public class Duke {
      * @param command     user input at terminal
      * @param listOfTasks Array containing tasks inserted by user
      * @param taskCount   Store the amount of tasks inserted
+     * @throws InvalidCommandException exception due to commands without specifying the type
      */
     private static void addTask(String command, Task[] listOfTasks, int taskCount) throws InvalidCommandException {
         String task;
@@ -102,10 +104,9 @@ public class Duke {
             }
             break;
         case DEADLINE:
+            // Command inserted by user will be processed and added into the list of tasks
             try {
-                // Extract the string between "deadline" and "/"
-                task = command.trim().substring("deadline".length()).trim();
-                listOfTasks[taskCount] = new Deadline(task);
+                listOfTasks[taskCount] = new Deadline(command);
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
@@ -114,8 +115,7 @@ public class Duke {
             break;
         case EVENT:
             try {
-                task = command.trim().substring("event".length()).trim();
-                listOfTasks[taskCount] = new Event(task);
+                listOfTasks[taskCount] = new Event(command);
             } catch (InvalidCommandException e){
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
@@ -123,6 +123,7 @@ public class Duke {
             }
             break;
         default:
+            // Exception due to non-specific task type
             throw new InvalidCommandException();
         }
     }
@@ -138,7 +139,7 @@ public class Duke {
 
         String commandModified = command.trim().toLowerCase();
 
-        // Check what is the type of the task given
+        // Checks the type of the task given
         if (commandModified.startsWith("todo")) {
             taskType = TaskType.TODO;
         } else if (commandModified.startsWith("deadline")) {
