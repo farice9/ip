@@ -186,13 +186,13 @@ public class Duke {
         int taskCount = Task.getNumberOfTasks();
 
         // Notify the user if no tasks has been added yet
-        if (taskCount== 0) {
+        if (taskCount == 0) {
             botSpeak("No tasks has been added yet. Try adding something!");
         } else {
             // Prints out the list of commands with respective index number
             printDivider();
             System.out.println("Here are the tasks in your list:");
-            for (int i=0 ; i < taskCount; i++){
+            for (int i=0; i < taskCount; i++){
                 System.out.println((i+1) + "." + listOfTasks[i]);
             }
             printDivider();
@@ -236,8 +236,8 @@ public class Duke {
         } else {
             // Mark the task as done
             listOfTasks[taskIndex].isDone = true;
-            botSpeak("Good job! I have marked this task as done:\n" +
-                    listOfTasks[taskIndex]);
+            botSpeak("Good job! I have marked this task as done:\n"
+                    + listOfTasks[taskIndex]);
         }
     }
 

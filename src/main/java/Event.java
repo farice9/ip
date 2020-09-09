@@ -2,15 +2,15 @@
  * Subclass of Task, for events happening on certain time
  */
 public class Event extends Task {
-    protected String at;
+    protected String date;
 
     public Event(String description, String at){
         super(description);
-        this.at = at;
+        this.date = date;
     }
 
     @Override
     public String toString(){
-        return "[E]" + super.toString() + " (at: " + this.at + ")";
+        return "[E]" + super.toString() + " (at: " + this.date + ")";
     }
 }
