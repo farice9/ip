@@ -13,6 +13,7 @@ public class Deadline extends Task {
             throw new InvalidDateException();
         } else {
             this.date = description.substring(dateStringIndex + "/by".length()).trim();
+            numberOfTasks++;
             printAddResult();
         }
     }

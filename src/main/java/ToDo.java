@@ -5,6 +5,7 @@ public class ToDo extends Task {
 
     public ToDo(String description) throws InvalidCommandException {
         super(description);
+        numberOfTasks++;
         printAddResult();
     }
 

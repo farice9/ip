@@ -4,12 +4,16 @@
 public class Event extends Task {
     protected String date;
 
-    public Event(String description, String date) throws InvalidCommandException, InvalidDateException {
+    public Event(String description) throws InvalidCommandException, InvalidDateException {
         super(description);
-        if (date.isEmpty()){
+
+        int dateStringIndex = description.indexOf("/");
+
+        if (dateStringIndex < 0) {
             throw new InvalidDateException();
         } else {
-            this.date = date;
+            this.date = description.substring(dateStringIndex + "/at".length()).trim();
+            numberOfTasks++;
             printAddResult();
         }
     }

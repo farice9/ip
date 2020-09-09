@@ -86,25 +86,9 @@ public class Duke {
      */
     private static void addTask(String command, Task[] listOfTasks, int taskCount) throws InvalidCommandException {
         String task;
-        String date = " ";
-        boolean isDateIncluded = false;
 
-        // Identifies if the task is
+        // Identifies the task type
         TaskType taskType = getTaskType(command);
-
-        // Find the part of string where user types the date
-        int dateStringIndex = command.indexOf("/");
-
-
-        // Date is required when its a deadline/event
-        boolean isDateRequired = (taskType == TaskType.DEADLINE) || (taskType == TaskType.EVENT);
-
-        // Date is included if "/" is found in the user's command
-        if (isDateRequired && (dateStringIndex > 0)) {
-            // Extract the date of the deadline/event
-            date = command.substring(dateStringIndex + "/by".length()).trim();
-            isDateIncluded = true;
-        }
 
         // Creates new object based on the type of the task
         switch (taskType) {
@@ -130,12 +114,12 @@ public class Duke {
             break;
         case EVENT:
             try {
-                task = command.trim().substring("event".length(), dateStringIndex).trim();
-                listOfTasks[taskCount] = new Event(task, date);
+                task = command.trim().substring("event".length()).trim();
+                listOfTasks[taskCount] = new Event(task);
             } catch (InvalidCommandException e){
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
-                botSpeak("No date is found for this deadline! Try adding a date after /at");
+                botSpeak("No date is found for this event! Try adding a date after /at");
             }
             break;
         default:

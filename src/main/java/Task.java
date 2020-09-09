@@ -8,12 +8,12 @@ public class Task {
     protected boolean isDone;
 
     /** Class-level member to store total number of task */
-    private static int numberOfTasks = 0;
+    protected static int numberOfTasks = 0;
 
     /**
      * Constructor for Task class
      *
-     * @param description description of the task
+     * @param description description of the task inserted by the user
      */
     public Task(String description) throws InvalidCommandException {
         if (description.isEmpty()) {
@@ -21,7 +21,6 @@ public class Task {
         } else {
             this.description = description;
             this.isDone = false;
-            numberOfTasks++;
         }
     }
 
