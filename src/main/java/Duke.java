@@ -1,10 +1,11 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * An interactive bot that performs various tasks based on user command
  *
- * Last updated : 9 September 2020
+ * Last updated : 15 September 2020
  *
  * Functions implemented:
  * 1) Adding tasks to a list
@@ -46,7 +47,7 @@ public class Duke {
         boolean saidBye; // Logic flag to track if user said "bye"
 
         // Stores the commands given
-        Task[] listOfTasks = new Task[100]; // Can store 100 tasks
+        ArrayList<Task> listOfTasks = new ArrayList<>(); // Can store 100 tasks
         int taskCount; // Store the amount of tasks inserted
 
         // Repeatedly receive user command until "bye" is given
@@ -86,7 +87,7 @@ public class Duke {
      * @param taskCount   Store the amount of tasks inserted
      * @throws InvalidCommandException exception due to commands without specifying the type
      */
-    private static void addTask(String command, Task[] listOfTasks, int taskCount) throws InvalidCommandException {
+    private static void addTask(String command, ArrayList<Task> listOfTasks, int taskCount) throws InvalidCommandException {
         String task;
 
         // Identifies the task type
@@ -98,7 +99,7 @@ public class Duke {
             // Extract the string after "todo"
             task = command.trim().substring("todo".length()).trim();
             try {
-                listOfTasks[taskCount] = new ToDo(task);
+                listOfTasks.add(new ToDo(task));
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of todo cannot be empty!");
             }
@@ -106,7 +107,7 @@ public class Duke {
         case DEADLINE:
             // Command inserted by user will be processed and added into the list of tasks
             try {
-                listOfTasks[taskCount] = new Deadline(command);
+                listOfTasks.add(new Deadline(command));
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
@@ -115,7 +116,7 @@ public class Duke {
             break;
         case EVENT:
             try {
-                listOfTasks[taskCount] = new Event(command);
+                listOfTasks.add(new Event(command));
             } catch (InvalidCommandException e){
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
@@ -158,7 +159,7 @@ public class Duke {
      *
      * @param listOfTasks Array containing tasks inserted by user
      */
-    public static void printList(Task[] listOfTasks) {
+    public static void printList(ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
 
         // Notify the user if no tasks has been added yet
@@ -169,7 +170,7 @@ public class Duke {
             printDivider();
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < taskCount; i++) {
-                System.out.println((i + 1) + "." + listOfTasks[i]);
+                System.out.println((i + 1) + "." + listOfTasks.get(i));
             }
             printDivider();
         }
@@ -181,7 +182,7 @@ public class Duke {
      * @param command     The command input by user
      * @param listOfTasks Array containing tasks inserted by user
      */
-    public static void doneTask(String command, Task[] listOfTasks) {
+    public static void doneTask(String command, ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
 
         if (isDoneValid(command)) {
@@ -205,15 +206,15 @@ public class Duke {
      * @param listOfTasks Array containing tasks inserted by user
      * @param taskIndex   Index of the task indicated
      */
-    private static void markAsDone(Task[] listOfTasks, int taskIndex) {
+    private static void markAsDone(ArrayList<Task> listOfTasks, int taskIndex) {
         // Inform the user if the task input has already been done
-        if (listOfTasks[taskIndex].isDone) {
+        if (listOfTasks.get(taskIndex).isDone) {
             botSpeak("This task has already been done! Good luck completing others!!!");
         } else {
             // Mark the task as done
-            listOfTasks[taskIndex].isDone = true;
+            listOfTasks.get(taskIndex).isDone = true;
             botSpeak("Good job! I have marked this task as done:\n"
-                    + listOfTasks[taskIndex]);
+                    + listOfTasks.get(taskIndex));
         }
     }
 
