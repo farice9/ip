@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -19,8 +21,14 @@ public class Duke {
      * Main function
      */
     public static void main(String[] args) {
+        ArrayList<Task> listOfTasks = new ArrayList<>();
+        try {
+            DukeFiles.initializeFile(listOfTasks);
+        } catch (IOException e) {
+            System.out.println("Problem with initializing the file");
+        }
         greet();
-        processCommand();
+        processCommand(listOfTasks);
         exit();
     }
 
@@ -28,7 +36,17 @@ public class Duke {
      * Prints greet user message
      */
     public static void greet() {
-        botSpeak("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?");
+        printDivider();
+        System.out.println("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?\n");
+        System.out.println("Here are some commands you can use to interact with me:\n" +
+                "todo <task>                : Store what needs to be done \n" +
+                "deadline <task> /by <date> : Keep track of your deadlines!\n" +
+                "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
+                "list                       : To list out all the tasks you have so far\n" +
+                "done <integer number>      : To mark a task as done\n" +
+                "delete <ineger number>     : To delete a task from the list\n");
+        System.out.println("Go ahead!");
+        printDivider();
     }
 
     /**
@@ -42,13 +60,11 @@ public class Duke {
      * Process the commands given by the user
      * Possible commands : list, bye, done (_digit_), (any string)
      */
-    public static void processCommand() {
+    public static void processCommand(ArrayList<Task> listOfTasks) {
         String command;
         String commandModified;
         boolean saidBye; // Logic flag to track if user said "bye"
 
-        // Stores the commands given
-        ArrayList<Task> listOfTasks = new ArrayList<>(); // Can store 100 tasks
         int taskCount; // Store the amount of tasks inserted
 
         // Repeatedly receive user command until "bye" is given
@@ -63,21 +79,35 @@ public class Duke {
             // Update taskCount value from class-level member in Task
             taskCount = Task.getNumberOfTasks();
 
+            boolean isListModified = false;
+
             // Prints the list of tasks stored if "list" is called
             if (commandModified.equals("list")) {
                 printList(listOfTasks);
             } else if (commandModified.contains("done")) {
                 // Update done status for indicated task
                 doneTask(command, listOfTasks);
+                isListModified = true;
             } else if (commandModified.startsWith("delete")) {
                 deleteTask(listOfTasks, command);
+                isListModified = true;
             } else if (!saidBye) {
                 // Store the command into the array as a task if it's none of the above
                 try {
                     addTask(command, listOfTasks, taskCount);
+                    isListModified = true;
                 } catch (InvalidCommandException e) {
                     // Informs user when command is inserted without stating the type of task
                     botSpeak("☹ Sorry but I don't understand that at all. Try again?");
+                }
+            }
+
+            // Update the txt file
+            if (isListModified) {
+                try {
+                    DukeFiles.writeToFile(listOfTasks);
+                } catch (IOException e) {
+                    System.out.println("There's a problem with writing the file");
                 }
             }
         } while (!saidBye);
@@ -104,6 +134,7 @@ public class Duke {
             task = command.trim().substring("todo".length()).trim();
             try {
                 listOfTasks.add(new ToDo(task));
+                listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of todo cannot be empty!");
             }
@@ -112,6 +143,7 @@ public class Duke {
             // Command inserted by user will be processed and added into the list of tasks
             try {
                 listOfTasks.add(new Deadline(command));
+                listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
@@ -121,6 +153,7 @@ public class Duke {
         case EVENT:
             try {
                 listOfTasks.add(new Event(command));
+                listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
@@ -158,7 +191,6 @@ public class Duke {
         return taskType;
     }
 
-    //TODO: add conditions, avoid using number of tasks as public variable
     private static void deleteTask(ArrayList<Task> listOfTasks, String command) {
         int taskCount = Task.getNumberOfTasks();
         int taskIndexPosition = command.toLowerCase().indexOf("delete") + "delete".length();
