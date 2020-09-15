@@ -25,7 +25,6 @@ public class Event extends Task {
             this.date = description.substring(dateStringIndex + "/at".length()).trim();
 
             numberOfTasks++;
-            printAddResult();
         }
     }
 

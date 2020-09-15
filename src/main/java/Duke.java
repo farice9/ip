@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -19,7 +21,13 @@ public class Duke {
      */
     public static void main(String[] args) {
         greet();
-        processCommand();
+        Task[] listOfTasks = new Task[100];
+        try {
+            DukeFiles.initializeFile(listOfTasks);
+        } catch (IOException e) {
+            System.out.println("Problem with initializing the file");
+        }
+        processCommand(listOfTasks);
         exit();
     }
 
@@ -41,12 +49,11 @@ public class Duke {
      * Process the commands given by the user
      * Possible commands : list, bye, done (_digit_), (any string)
      */
-    public static void processCommand() {
+    public static void processCommand(Task[] listOfTasks) {
         String command;
         boolean saidBye; // Logic flag to track if user said "bye"
 
         // Stores the commands given
-        Task[] listOfTasks = new Task[100]; // Can store 100 tasks
         int taskCount; // Store the amount of tasks inserted
 
         // Repeatedly receive user command until "bye" is given
@@ -75,6 +82,13 @@ public class Duke {
                     botSpeak("☹ Sorry but I don't understand that at all. Try again?");
                 }
             }
+
+            // Update the txt file
+            try {
+                DukeFiles.writeToFile(listOfTasks);
+            } catch (IOException e) {
+                System.out.println("There's a problem with writing the file");
+            }
         } while (!saidBye);
     }
 
@@ -99,6 +113,7 @@ public class Duke {
             task = command.trim().substring("todo".length()).trim();
             try {
                 listOfTasks[taskCount] = new ToDo(task);
+                listOfTasks[taskCount].printAddResult();
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of todo cannot be empty!");
             }
@@ -107,6 +122,7 @@ public class Duke {
             // Command inserted by user will be processed and added into the list of tasks
             try {
                 listOfTasks[taskCount] = new Deadline(command);
+                listOfTasks[taskCount].printAddResult();
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
@@ -116,6 +132,7 @@ public class Duke {
         case EVENT:
             try {
                 listOfTasks[taskCount] = new Event(command);
+                listOfTasks[taskCount].printAddResult();
             } catch (InvalidCommandException e){
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {

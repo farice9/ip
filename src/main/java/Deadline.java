@@ -18,7 +18,6 @@ public class Deadline extends Task {
             this.date = description.substring(dateStringIndex + "/by".length()).trim();
 
             numberOfTasks++;
-            printAddResult();
         }
     }
 
