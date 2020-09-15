@@ -44,6 +44,7 @@ public class Duke {
      */
     public static void processCommand() {
         String command;
+        String commandModified;
         boolean saidBye; // Logic flag to track if user said "bye"
 
         // Stores the commands given
@@ -54,6 +55,7 @@ public class Duke {
         do {
             // Collect user's command
             command = inputCommand();
+            commandModified = command.trim().toLowerCase();
 
             // Checks if the command is "bye"
             saidBye = command.toLowerCase().trim().equals("bye");
@@ -62,11 +64,13 @@ public class Duke {
             taskCount = Task.getNumberOfTasks();
 
             // Prints the list of tasks stored if "list" is called
-            if (command.toLowerCase().trim().equals("list")) {
+            if (commandModified.equals("list")) {
                 printList(listOfTasks);
-            } else if (command.toLowerCase().contains("done")) {
+            } else if (commandModified.contains("done")) {
                 // Update done status for indicated task
                 doneTask(command, listOfTasks);
+            } else if (commandModified.startsWith("delete")) {
+                deleteTask(listOfTasks, command);
             } else if (!saidBye) {
                 // Store the command into the array as a task if it's none of the above
                 try {
@@ -123,9 +127,6 @@ public class Duke {
                 botSpeak("No date is found for this event! Try adding a date after /at");
             }
             break;
-        case DELETE:
-            deleteTask(listOfTasks, command);
-            break;
         default:
             // Exception due to non-specific task type
             throw new InvalidCommandException();
@@ -150,8 +151,6 @@ public class Duke {
             taskType = TaskType.DEADLINE;
         } else if (commandModified.startsWith("event")) {
             taskType = TaskType.EVENT;
-        } else if (commandModified.startsWith("delete")) {
-            taskType = TaskType.DELETE;
         } else {
             // taskType is NORMAL when user did not input specific type at the start
             taskType = TaskType.NORMAL;
@@ -161,19 +160,28 @@ public class Duke {
 
     //TODO: add conditions, avoid using number of tasks as public variable
     private static void deleteTask(ArrayList<Task> listOfTasks, String command) {
-        int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("delete") + "delete".length()).trim()) - 1;
+        int taskCount = Task.getNumberOfTasks();
+        int taskIndexPosition = command.toLowerCase().indexOf("delete") + "delete".length();
 
-        Task taskToBeRemoved = listOfTasks.get(taskIndex);
+        if (isIndexValid(command, taskIndexPosition)) {
+            int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
+            if ((taskIndex >= 0) && (taskIndex < taskCount)) {
+                Task taskToBeRemoved = listOfTasks.get(taskIndex);
 
-        listOfTasks.remove(taskIndex);
+                listOfTasks.remove(taskIndex);
+                Task.reduceNumberOfTasks();
 
-        Task.reduceNumberOfTasks();
-
-        printDivider();
-        System.out.println("Noted! I have removed the task requested:");
-        System.out.println(taskToBeRemoved);
-        System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
-        printDivider();
+                printDivider();
+                System.out.println("Noted! I have removed the task requested:");
+                System.out.println(taskToBeRemoved);
+                System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
+                printDivider();
+            } else {
+                botSpeak("Task not found! Nothing is there to be deleted");
+            }
+        } else {
+            botSpeak("No index number detected. Please try again!");
+        }
     }
 
     /**
@@ -206,10 +214,11 @@ public class Duke {
      */
     public static void doneTask(String command, ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
+        int taskIndexPosition = command.toLowerCase().indexOf("done") + "done".length();
 
-        if (isDoneValid(command)) {
+        if (isIndexValid(command, taskIndexPosition)) {
             // Extract the index number of the task to be marked as done
-            int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
+            int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
 
             // Make task as done if the task index inputted is at least 0 and less than the number of tasks inserted
             if ((taskIndex >= 0) && (taskIndex < taskCount)) {
@@ -218,7 +227,7 @@ public class Duke {
                 botSpeak("Task not found. Make sure you input the correct task index number!");
             }
         } else {
-            botSpeak("No index number inserted. Please try again!");
+            botSpeak("No index number detected. Please try again!");
         }
     }
 
@@ -242,22 +251,25 @@ public class Duke {
 
     /**
      * Checks if the "done" command input by user is correct
-     * It is correct if it does not have blank space and non-digits after "done" input
+     * It is correct if it does not have blank space and non-digits after "done" or "delete" input
      *
      * @param sentence String of command inserted by user
      * @return logic true if the "done" command is valid
      */
-    public static boolean isDoneValid(String sentence) {
-        // Extract the string after "done" and convert it to array of characters
-        String stringAfterDone = sentence.substring(sentence.toLowerCase().indexOf("done") + 4).trim();
-        char[] charAfterDone = stringAfterDone.toCharArray();
+    public static boolean isIndexValid(String sentence, int taskIndexPosition) {
+        String stringAfterCommand;
+
+        // Extract the string and convert it to array of characters
+        stringAfterCommand = sentence.substring(taskIndexPosition).trim();
+
+        char[] charAfterCommand = stringAfterCommand.toCharArray();
 
         // Return false if the substring after "done" only contains empty space
-        if (stringAfterDone.isEmpty()) {
+        if (stringAfterCommand.isEmpty()) {
             return false;
         }
         // Return false if the substring after "done" are not digits
-        for (char character : charAfterDone) {
+        for (char character : charAfterCommand) {
             if (!Character.isDigit(character)) {
                 return false;
             }
