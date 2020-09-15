@@ -31,6 +31,7 @@ public class DukeFiles {
         File f = new File(dukeFilepath);
         Scanner s = new Scanner(f);
 
+        System.out.println("Loading your previous tasks, hold on! ...");
         while (s.hasNext()) {
             String line = s.nextLine();
 
@@ -65,6 +66,6 @@ public class DukeFiles {
                 System.out.println("Problem adding task due to incorrect date input");
             }
         }
-        System.out.println("Storage file content loaded!");
+        System.out.println("... Storage file content loaded!");
     }
 }

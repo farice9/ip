@@ -20,13 +20,13 @@ public class Duke {
      * Main function
      */
     public static void main(String[] args) {
-        greet();
         Task[] listOfTasks = new Task[100];
         try {
             DukeFiles.initializeFile(listOfTasks);
         } catch (IOException e) {
             System.out.println("Problem with initializing the file");
         }
+        greet();
         processCommand(listOfTasks);
         exit();
     }
@@ -35,7 +35,17 @@ public class Duke {
      * Prints greet user message
      */
     public static void greet() {
-        botSpeak("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?");
+        printDivider();
+        System.out.println("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?\n");
+        System.out.println("Here are some commands you can use to interact with me:\n" +
+                "todo <task>                : Store what needs to be done \n" +
+                "deadline <task> /by <date> : Keep track of your deadlines!\n" +
+                "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
+                "list                       : To list out all the tasks you have so far\n" +
+                "done <integer number>      : To mark a task as done\n" +
+                "delete <ineger number>     : To delete a task from the list\n");
+        System.out.println("Go ahead!");
+        printDivider();
     }
 
     /**
@@ -67,16 +77,20 @@ public class Duke {
             // Update taskCount value from class-level member in Task
             taskCount = Task.getNumberOfTasks();
 
+            boolean isListModified = false;
+
             // Prints the list of tasks stored if "list" is called
             if (command.toLowerCase().trim().equals("list")) {
                 printList(listOfTasks);
             } else if (command.toLowerCase().contains("done")) {
                 // Update done status for indicated task
                 doneTask(command, listOfTasks);
+                isListModified = true;
             } else if (!saidBye) {
                 // Store the command into the array as a task if it's none of the above
                 try {
                     addTask(command, listOfTasks, taskCount);
+                    isListModified = true;
                 } catch (InvalidCommandException e) {
                     // Informs user when command is inserted without stating the type of task
                     botSpeak("☹ Sorry but I don't understand that at all. Try again?");
@@ -84,10 +98,12 @@ public class Duke {
             }
 
             // Update the txt file
-            try {
-                DukeFiles.writeToFile(listOfTasks);
-            } catch (IOException e) {
-                System.out.println("There's a problem with writing the file");
+            if (isListModified) {
+                try {
+                    DukeFiles.writeToFile(listOfTasks);
+                } catch (IOException e) {
+                    System.out.println("There's a problem with writing the file");
+                }
             }
         } while (!saidBye);
     }
