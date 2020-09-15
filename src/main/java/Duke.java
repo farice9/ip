@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 /**
  * An interactive bot that performs various tasks based on user command
- *
+ * <p>
  * Last updated : 15 September 2020
- *
+ * <p>
  * Functions implemented:
  * 1) Adding tasks to a list
  * 2) Printing the list of tasks stored
@@ -117,11 +117,14 @@ public class Duke {
         case EVENT:
             try {
                 listOfTasks.add(new Event(command));
-            } catch (InvalidCommandException e){
+            } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
                 botSpeak("No date is found for this event! Try adding a date after /at");
             }
+            break;
+        case DELETE:
+            deleteTask(listOfTasks, command);
             break;
         default:
             // Exception due to non-specific task type
@@ -147,11 +150,30 @@ public class Duke {
             taskType = TaskType.DEADLINE;
         } else if (commandModified.startsWith("event")) {
             taskType = TaskType.EVENT;
+        } else if (commandModified.startsWith("delete")) {
+            taskType = TaskType.DELETE;
         } else {
             // taskType is NORMAL when user did not input specific type at the start
             taskType = TaskType.NORMAL;
         }
         return taskType;
+    }
+
+    //TODO: add conditions, avoid using number of tasks as public variable
+    private static void deleteTask(ArrayList<Task> listOfTasks, String command) {
+        int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("delete") + "delete".length()).trim()) - 1;
+
+        Task taskToBeRemoved = listOfTasks.get(taskIndex);
+
+        listOfTasks.remove(taskIndex);
+
+        Task.reduceNumberOfTasks();
+
+        printDivider();
+        System.out.println("Noted! I have removed the task requested:");
+        System.out.println(taskToBeRemoved);
+        System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
+        printDivider();
     }
 
     /**
