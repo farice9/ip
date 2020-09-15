@@ -1,11 +1,12 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * An interactive bot that performs various tasks based on user command
- *
- * Last updated : 9 September 2020
- *
+ * <p>
+ * Last updated : 15 September 2020
+ * <p>
  * Functions implemented:
  * 1) Adding tasks to a list
  * 2) Printing the list of tasks stored
@@ -43,16 +44,18 @@ public class Duke {
      */
     public static void processCommand() {
         String command;
+        String commandModified;
         boolean saidBye; // Logic flag to track if user said "bye"
 
         // Stores the commands given
-        Task[] listOfTasks = new Task[100]; // Can store 100 tasks
+        ArrayList<Task> listOfTasks = new ArrayList<>(); // Can store 100 tasks
         int taskCount; // Store the amount of tasks inserted
 
         // Repeatedly receive user command until "bye" is given
         do {
             // Collect user's command
             command = inputCommand();
+            commandModified = command.trim().toLowerCase();
 
             // Checks if the command is "bye"
             saidBye = command.toLowerCase().trim().equals("bye");
@@ -61,11 +64,13 @@ public class Duke {
             taskCount = Task.getNumberOfTasks();
 
             // Prints the list of tasks stored if "list" is called
-            if (command.toLowerCase().trim().equals("list")) {
+            if (commandModified.equals("list")) {
                 printList(listOfTasks);
-            } else if (command.toLowerCase().contains("done")) {
+            } else if (commandModified.contains("done")) {
                 // Update done status for indicated task
                 doneTask(command, listOfTasks);
+            } else if (commandModified.startsWith("delete")) {
+                deleteTask(listOfTasks, command);
             } else if (!saidBye) {
                 // Store the command into the array as a task if it's none of the above
                 try {
@@ -86,7 +91,7 @@ public class Duke {
      * @param taskCount   Store the amount of tasks inserted
      * @throws InvalidCommandException exception due to commands without specifying the type
      */
-    private static void addTask(String command, Task[] listOfTasks, int taskCount) throws InvalidCommandException {
+    private static void addTask(String command, ArrayList<Task> listOfTasks, int taskCount) throws InvalidCommandException {
         String task;
 
         // Identifies the task type
@@ -98,7 +103,7 @@ public class Duke {
             // Extract the string after "todo"
             task = command.trim().substring("todo".length()).trim();
             try {
-                listOfTasks[taskCount] = new ToDo(task);
+                listOfTasks.add(new ToDo(task));
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of todo cannot be empty!");
             }
@@ -106,7 +111,7 @@ public class Duke {
         case DEADLINE:
             // Command inserted by user will be processed and added into the list of tasks
             try {
-                listOfTasks[taskCount] = new Deadline(command);
+                listOfTasks.add(new Deadline(command));
             } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of deadline cannot be empty!");
             } catch (InvalidDateException e) {
@@ -115,8 +120,8 @@ public class Duke {
             break;
         case EVENT:
             try {
-                listOfTasks[taskCount] = new Event(command);
-            } catch (InvalidCommandException e){
+                listOfTasks.add(new Event(command));
+            } catch (InvalidCommandException e) {
                 botSpeak("☹ OH NO! The description of event cannot be empty!");
             } catch (InvalidDateException e) {
                 botSpeak("No date is found for this event! Try adding a date after /at");
@@ -153,12 +158,38 @@ public class Duke {
         return taskType;
     }
 
+    //TODO: add conditions, avoid using number of tasks as public variable
+    private static void deleteTask(ArrayList<Task> listOfTasks, String command) {
+        int taskCount = Task.getNumberOfTasks();
+        int taskIndexPosition = command.toLowerCase().indexOf("delete") + "delete".length();
+
+        if (isIndexValid(command, taskIndexPosition)) {
+            int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
+            if ((taskIndex >= 0) && (taskIndex < taskCount)) {
+                Task taskToBeRemoved = listOfTasks.get(taskIndex);
+
+                listOfTasks.remove(taskIndex);
+                Task.reduceNumberOfTasks();
+
+                printDivider();
+                System.out.println("Noted! I have removed the task requested:");
+                System.out.println(taskToBeRemoved);
+                System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
+                printDivider();
+            } else {
+                botSpeak("Task not found! Nothing is there to be deleted");
+            }
+        } else {
+            botSpeak("No index number detected. Please try again!");
+        }
+    }
+
     /**
      * Prints out the list of tasks stored
      *
      * @param listOfTasks Array containing tasks inserted by user
      */
-    public static void printList(Task[] listOfTasks) {
+    public static void printList(ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
 
         // Notify the user if no tasks has been added yet
@@ -169,7 +200,7 @@ public class Duke {
             printDivider();
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < taskCount; i++) {
-                System.out.println((i + 1) + "." + listOfTasks[i]);
+                System.out.println((i + 1) + "." + listOfTasks.get(i));
             }
             printDivider();
         }
@@ -181,12 +212,13 @@ public class Duke {
      * @param command     The command input by user
      * @param listOfTasks Array containing tasks inserted by user
      */
-    public static void doneTask(String command, Task[] listOfTasks) {
+    public static void doneTask(String command, ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
+        int taskIndexPosition = command.toLowerCase().indexOf("done") + "done".length();
 
-        if (isDoneValid(command)) {
+        if (isIndexValid(command, taskIndexPosition)) {
             // Extract the index number of the task to be marked as done
-            int taskIndex = Integer.parseInt(command.substring(command.toLowerCase().indexOf("done") + 4).trim()) - 1;
+            int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
 
             // Make task as done if the task index inputted is at least 0 and less than the number of tasks inserted
             if ((taskIndex >= 0) && (taskIndex < taskCount)) {
@@ -195,7 +227,7 @@ public class Duke {
                 botSpeak("Task not found. Make sure you input the correct task index number!");
             }
         } else {
-            botSpeak("No index number inserted. Please try again!");
+            botSpeak("No index number detected. Please try again!");
         }
     }
 
@@ -205,36 +237,39 @@ public class Duke {
      * @param listOfTasks Array containing tasks inserted by user
      * @param taskIndex   Index of the task indicated
      */
-    private static void markAsDone(Task[] listOfTasks, int taskIndex) {
+    private static void markAsDone(ArrayList<Task> listOfTasks, int taskIndex) {
         // Inform the user if the task input has already been done
-        if (listOfTasks[taskIndex].isDone) {
+        if (listOfTasks.get(taskIndex).isDone) {
             botSpeak("This task has already been done! Good luck completing others!!!");
         } else {
             // Mark the task as done
-            listOfTasks[taskIndex].isDone = true;
+            listOfTasks.get(taskIndex).isDone = true;
             botSpeak("Good job! I have marked this task as done:\n"
-                    + listOfTasks[taskIndex]);
+                    + listOfTasks.get(taskIndex));
         }
     }
 
     /**
      * Checks if the "done" command input by user is correct
-     * It is correct if it does not have blank space and non-digits after "done" input
+     * It is correct if it does not have blank space and non-digits after "done" or "delete" input
      *
      * @param sentence String of command inserted by user
      * @return logic true if the "done" command is valid
      */
-    public static boolean isDoneValid(String sentence) {
-        // Extract the string after "done" and convert it to array of characters
-        String stringAfterDone = sentence.substring(sentence.toLowerCase().indexOf("done") + 4).trim();
-        char[] charAfterDone = stringAfterDone.toCharArray();
+    public static boolean isIndexValid(String sentence, int taskIndexPosition) {
+        String stringAfterCommand;
+
+        // Extract the string and convert it to array of characters
+        stringAfterCommand = sentence.substring(taskIndexPosition).trim();
+
+        char[] charAfterCommand = stringAfterCommand.toCharArray();
 
         // Return false if the substring after "done" only contains empty space
-        if (stringAfterDone.isEmpty()) {
+        if (stringAfterCommand.isEmpty()) {
             return false;
         }
         // Return false if the substring after "done" are not digits
-        for (char character : charAfterDone) {
+        for (char character : charAfterCommand) {
             if (!Character.isDigit(character)) {
                 return false;
             }

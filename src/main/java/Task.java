@@ -64,4 +64,8 @@ public class Task {
     public static void printNumberOfTasks(){
         System.out.println("Now you have " + numberOfTasks + " task(s) in the list.");
     }
+
+    public static void reduceNumberOfTasks() {
+        numberOfTasks--;
+    }
 }
