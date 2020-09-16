@@ -8,6 +8,12 @@ import java.util.Scanner;
 public class DukeFiles {
     private static final String dukeFilepath = "tasks.txt";
 
+    /**
+     * Update the txt file with the list of tasks stored
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     * @throws IOException Error caused when writing file
+     */
     public static void writeToFile(ArrayList<Task> listOfTasks) throws IOException {
         FileWriter fw = new FileWriter(dukeFilepath);
 
@@ -17,6 +23,12 @@ public class DukeFiles {
         fw.close();
     }
 
+    /**
+     * To be run at the start of program to retrieve the content from storage file
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     * @throws IOException
+     */
     public static void initializeFile(ArrayList<Task> listOfTasks) throws IOException {
         try {
             loadFileContent(listOfTasks);
@@ -27,10 +39,17 @@ public class DukeFiles {
         }
     }
 
+    /**
+     * To load the content of the file onto the ArrayList of the program
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     * @throws FileNotFoundException Error caused by file not found at the specified filepath
+     */
     public static void loadFileContent(ArrayList<Task> listOfTasks) throws FileNotFoundException {
         File f = new File(dukeFilepath);
         Scanner s = new Scanner(f);
 
+        Duke.printDivider();
         System.out.println("Loading your previous tasks, hold on! ...");
         while (s.hasNext()) {
             String line = s.nextLine();

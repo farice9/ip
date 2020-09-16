@@ -14,6 +14,8 @@ import java.util.ArrayList;
  * 2) Printing the list of tasks stored
  * 3) Indicating which task is done
  * 4) Different type of tasks (event, deadline, todo)
+ * 5) Delete tasks
+ * 6) Task storage onto a txt file
  */
 
 public class Duke {
@@ -22,10 +24,11 @@ public class Duke {
      */
     public static void main(String[] args) {
         ArrayList<Task> listOfTasks = new ArrayList<>();
+        // Load the storage file content
         try {
             DukeFiles.initializeFile(listOfTasks);
         } catch (IOException e) {
-            System.out.println("Problem with initializing the file");
+            System.out.println("Oh no! There's a problem loading file content");
         }
         greet();
         processCommand(listOfTasks);
@@ -33,7 +36,7 @@ public class Duke {
     }
 
     /**
-     * Prints greet user message
+     * Prints greet user message and a simple user guide
      */
     public static void greet() {
         printDivider();
@@ -44,7 +47,7 @@ public class Duke {
                 "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
                 "list                       : To list out all the tasks you have so far\n" +
                 "done <integer number>      : To mark a task as done\n" +
-                "delete <ineger number>     : To delete a task from the list\n");
+                "delete <integer number>    : To delete a task from the list\n");
         System.out.println("Go ahead!");
         printDivider();
     }
@@ -58,7 +61,8 @@ public class Duke {
 
     /**
      * Process the commands given by the user
-     * Possible commands : list, bye, done (_digit_), (any string)
+     *
+     * @param listOfTasks ArrayList containing list of tasks
      */
     public static void processCommand(ArrayList<Task> listOfTasks) {
         String command;
@@ -89,6 +93,7 @@ public class Duke {
                 doneTask(command, listOfTasks);
                 isListModified = true;
             } else if (commandModified.startsWith("delete")) {
+                // Delete the indicated task
                 deleteTask(listOfTasks, command);
                 isListModified = true;
             } else if (!saidBye) {
@@ -102,7 +107,7 @@ public class Duke {
                 }
             }
 
-            // Update the txt file
+            // Update the txt file if something is added/deleted/marked as done
             if (isListModified) {
                 try {
                     DukeFiles.writeToFile(listOfTasks);
@@ -117,7 +122,7 @@ public class Duke {
      * Identifies the type of task given by user and add into the list
      *
      * @param command     user input at terminal
-     * @param listOfTasks Array containing tasks inserted by user
+     * @param listOfTasks ArrayList containing tasks inserted by user
      * @param taskCount   Store the amount of tasks inserted
      * @throws InvalidCommandException exception due to commands without specifying the type
      */
@@ -185,35 +190,54 @@ public class Duke {
         } else if (commandModified.startsWith("event")) {
             taskType = TaskType.EVENT;
         } else {
-            // taskType is NORMAL when user did not input specific type at the start
-            taskType = TaskType.NORMAL;
+            // taskType is NONE when user did not input specific type at the start
+            taskType = TaskType.NONE;
         }
         return taskType;
     }
 
+    /**
+     * Deletes indicated task in the list
+     *
+     * @param listOfTasks ArrayList containing the list of task
+     * @param command Command input by the user
+     */
     private static void deleteTask(ArrayList<Task> listOfTasks, String command) {
         int taskCount = Task.getNumberOfTasks();
         int taskIndexPosition = command.toLowerCase().indexOf("delete") + "delete".length();
 
+        // Check if there's an integer input after "delete"
         if (isIndexValid(command, taskIndexPosition)) {
+            // Obtain the index of the task to be deleted
             int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
+
+            // Perform the delete operation is the index is within range
             if ((taskIndex >= 0) && (taskIndex < taskCount)) {
                 Task taskToBeRemoved = listOfTasks.get(taskIndex);
 
                 listOfTasks.remove(taskIndex);
                 Task.reduceNumberOfTasks();
 
-                printDivider();
-                System.out.println("Noted! I have removed the task requested:");
-                System.out.println(taskToBeRemoved);
-                System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
-                printDivider();
+                printDeleteResult(taskToBeRemoved);
             } else {
                 botSpeak("Task not found! Nothing is there to be deleted");
             }
         } else {
             botSpeak("No index number detected. Please try again!");
         }
+    }
+
+    /**
+     * Prints the result if the task is deleted successfully
+     *
+     * @param taskToBeRemoved Task indicated to be removed
+     */
+    private static void printDeleteResult(Task taskToBeRemoved) {
+        printDivider();
+        System.out.println("Noted! I have removed the task requested:");
+        System.out.println(taskToBeRemoved);
+        System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
+        printDivider();
     }
 
     /**
@@ -282,11 +306,11 @@ public class Duke {
     }
 
     /**
-     * Checks if the "done" command input by user is correct
+     * Checks if the "done" or "delete" command input by user is correct
      * It is correct if it does not have blank space and non-digits after "done" or "delete" input
      *
      * @param sentence String of command inserted by user
-     * @return logic true if the "done" command is valid
+     * @return logic true if the command is valid
      */
     public static boolean isIndexValid(String sentence, int taskIndexPosition) {
         String stringAfterCommand;

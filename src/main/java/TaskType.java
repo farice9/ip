@@ -5,6 +5,5 @@ public enum TaskType {
     TODO,
     DEADLINE,
     EVENT,
-    NORMAL,
-    DELETE
+    NONE,
 }
