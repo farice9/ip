@@ -9,7 +9,7 @@ public class Parser {
     public static CommandType getCommandType(String command) {
         String commandModified = command.trim().toLowerCase();
 
-        if (command.toLowerCase().trim().equals("bye")) {
+        if (commandModified.equals("bye")) {
             return CommandType.BYE;
         } else if (commandModified.equals("list")) {
             return CommandType.LIST;

@@ -19,8 +19,8 @@ import java.util.ArrayList;
  */
 
 public class Duke {
-    public static void Duke() {
-        ArrayList<Task> listOfTasks = new ArrayList<>();
+
+    public Duke(ArrayList<Task> listOfTasks) {
         // Load the storage file content
         try {
             DukeFiles.initializeFile(listOfTasks);
@@ -29,17 +29,14 @@ public class Duke {
         }
     }
 
-
     /**
      * Main function
      */
     public static void main(String[] args) {
-        Duke();
-
+        ArrayList<Task> listOfTasks = new ArrayList<>();
+        new Duke(listOfTasks);
         run(listOfTasks);
-
     }
-
 
     /**
      * Process the commands given by the user
@@ -48,47 +45,18 @@ public class Duke {
      */
     public static void run(ArrayList<Task> listOfTasks) {
         Ui.printGreeting();
-
+        boolean saidBye;
         // Repeatedly receive user command until "bye" is given
         do {
-            // Collect user's command
+            // Collect user's command & identify the type
             String command = Ui.inputCommand();
-
             CommandType commandType = Parser.getCommandType(command);
 
-            boolean isListModified = (commandType == CommandType.DONE || commandType == CommandType.DELETE
-                    || commandType == CommandType.TASK);
-
             // Checks if the command is "bye"
-            boolean saidBye = (commandType == CommandType.BYE);
+            saidBye = (commandType == CommandType.BYE);
 
-            // Prints the list of tasks stored if "list" is called
-            if (commandType == CommandType.LIST) {
-                Ui.printList(listOfTasks);
-            } else if (commandType == CommandType.DONE) {
-                // Update done status for indicated task
-                TaskList.doneTask(command, listOfTasks);
-                isListModified = true;
-            } else if (commandType == CommandType.DELETE) {
-                // Delete the indicated task
-                TaskList.deleteTask(listOfTasks, command);
-                isListModified = true;
-            } else if (!saidBye) {
-                // Store the command into the array as a task if it's none of the above
-                try {
-                    TaskList.addTask(command, listOfTasks);
-                    isListModified = true;
-                } catch (InvalidCommandException e) {
-                    // Informs user when command is inserted without stating the type of task
-                    Ui.printInvalidTaskType();
-                }
-            }
-            // Updates the tasks.txt file if changes occur to the array list
-            DukeFiles.updateFile(listOfTasks, isListModified);
+            Command.executeCommand(listOfTasks, command, commandType);
         } while (!saidBye);
-
         Ui.printGoodbye();
     }
-
-
 }
