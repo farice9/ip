@@ -24,10 +24,11 @@ public class DukeFiles {
     }
 
     /**
-     * To be run at the start of program to retrieve the content from storage file
+     * To be run at the start of program to initialize the ArrayList needed for operation
+     * by loading the data from saved file
      *
      * @param listOfTasks ArrayList containing list of tasks
-     * @throws IOException
+     * @throws IOException Error caused when writing file
      */
     public static void initializeFile(ArrayList<Task> listOfTasks) throws IOException {
         try {
@@ -59,25 +60,25 @@ public class DukeFiles {
             String description;
             String date;
 
+            TaskType taskType = Parser.getTaskTypeFromFile(line);
             try {
-                if (line.startsWith(Symbols.TODO_INDICATOR)) {
+                if (taskType == TaskType.TODO) {
                     listOfTasks.add(new ToDo(line.substring(initialLength).trim()));
                 } else {
                     String taskDetail = line.substring(initialLength, line.indexOf("(", initialLength)).trim();
-                    if (line.startsWith(Symbols.DEADLINE_INDICATOR)) {
-                        date = line.substring((line.indexOf("by:") + "by:".length()), line.indexOf(")")).trim();
-                        description = "deadline " + taskDetail.trim() + "/by" + date;
+                    if (taskType == TaskType.DEADLINE) {
+                        description = getDeadlineDescription(line, taskDetail);
                         listOfTasks.add(new Deadline(description));
-                    } else if (line.startsWith(Symbols.EVENT_INDICATOR)) {
-                        date = line.substring((line.indexOf("at:") + "at:".length()), line.indexOf(")")).trim();
-                        description = "event " + taskDetail.trim() + "/at" + date;
+                    } else if (taskType == TaskType.EVENT) {
+                        description = getEventDescription(line, taskDetail);
                         listOfTasks.add(new Event(description));
                     } else {
                         Ui.printReadFileIdentificationError();
                     }
                 }
+                // Marks the task as done if there's a boxed tick in the same line
                 if (line.contains(Symbols.BOXED_TICK)) {
-                    listOfTasks.get(taskCount).isDone = true;
+                    listOfTasks.get(taskCount).doneTask();
                 }
             } catch (InvalidCommandException e) {
                 Ui.printReadFileAddTaskError();
@@ -86,6 +87,21 @@ public class DukeFiles {
             }
         }
         Ui.printDoneLoading();
+    }
+
+
+    public static String getEventDescription(String line, String taskDetail) {
+        // Get the date indicated between "at:" and ")"
+        String date = line.substring((line.indexOf("at:") + "at:".length()), line.indexOf(")")).trim();
+        // Append the date onto the task detail
+        return "event " + taskDetail.trim() + "/at" + date;
+    }
+
+    public static String getDeadlineDescription(String line, String taskDetail) {
+        // Get the date indicated between "by:" and ")"
+        String date = line.substring((line.indexOf("by:") + "by:".length()), line.indexOf(")")).trim();
+        // Append the date onto the task detail
+        return "deadline " + taskDetail.trim() + "/by" + date;
     }
 
     /**

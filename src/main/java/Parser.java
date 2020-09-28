@@ -22,7 +22,19 @@ public class Parser {
         }
     }
 
-
+    public static TaskType getTaskTypeFromFile(String line) {
+        // Checks the type of the task given
+        if (line.startsWith(Symbols.TODO_INDICATOR)) {
+            return TaskType.TODO;
+        } else if (line.startsWith(Symbols.DEADLINE_INDICATOR)) {
+            return TaskType.DEADLINE;
+        } else if (line.startsWith(Symbols.EVENT_INDICATOR)) {
+            return TaskType.EVENT;
+        } else {
+            //taskType = taskType is NONE when user did not input specific type at the start
+            return TaskType.NONE;
+        }
+    }
     /**
      * Identifies and return the type of task the user has inserted
      *
@@ -30,22 +42,19 @@ public class Parser {
      * @return the type of the task (event, deadline, todo)
      */
     public static TaskType getTaskType(String command) {
-        TaskType taskType;
-
         String commandModified = command.trim().toLowerCase();
 
         // Checks the type of the task given
         if (commandModified.startsWith("todo")) {
-            taskType = TaskType.TODO;
+            return TaskType.TODO;
         } else if (commandModified.startsWith("deadline")) {
-            taskType = TaskType.DEADLINE;
+            return TaskType.DEADLINE;
         } else if (commandModified.startsWith("event")) {
-            taskType = TaskType.EVENT;
+            return TaskType.EVENT;
         } else {
             // taskType is NONE when user did not input specific type at the start
-            taskType = TaskType.NONE;
+            return TaskType.NONE;
         }
-        return taskType;
     }
 
     /**

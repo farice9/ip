@@ -20,6 +20,11 @@ import java.util.ArrayList;
 
 public class Duke {
 
+    /**
+     * Initialize by loading the saved file content onto the ArrayList
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     */
     public Duke(ArrayList<Task> listOfTasks) {
         // Load the storage file content
         try {
@@ -30,14 +35,15 @@ public class Duke {
     }
 
     /**
-     * Process the commands given by the user
+     * Runs the entire process of the interactive bot
+     * Receives and processes command by the user
      *
      * @param listOfTasks ArrayList containing list of tasks
      */
     public static void run(ArrayList<Task> listOfTasks) {
         Ui.printGreeting();
         boolean saidBye;
-        // Repeatedly receive user command until "bye" is given
+        // Repeatedly receive & process user command until "bye" is given
         do {
             // Collect user's command & identify the type
             String command = Ui.inputCommand();
