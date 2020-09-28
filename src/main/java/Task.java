@@ -28,11 +28,11 @@ public class Task {
      * Informs the user the details of the task they added (if successful)
      */
     protected void printAddResult() {
-        Duke.printDivider();
+        Ui.printDivider();
         System.out.println("Alrighty! I've added the following task:");
         System.out.println(this);
         printNumberOfTasks(); // Inform user how many tasks they have
-        Duke.printDivider();
+        Ui.printDivider();
     }
 
     /**

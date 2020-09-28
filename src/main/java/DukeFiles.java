@@ -49,8 +49,8 @@ public class DukeFiles {
         File f = new File(dukeFilepath);
         Scanner s = new Scanner(f);
 
-        Duke.printDivider();
-        System.out.println("Loading your previous tasks, hold on! ...");
+        Ui.printDivider();
+        Ui.printLoadingFile();
         while (s.hasNext()) {
             String line = s.nextLine();
 
@@ -73,18 +73,18 @@ public class DukeFiles {
                         description = "event " + taskDetail.trim() + "/at" + date;
                         listOfTasks.add(new Event(description));
                     } else {
-                        System.out.println("There's a problem identifying this task while reading file");
+                        Ui.printReadFileIdentificationError();
                     }
                 }
                 if (line.contains("\u2713")) {
                     listOfTasks.get(taskCount).isDone = true;
                 }
             } catch (InvalidCommandException e) {
-                System.out.println("Problem adding this task from storage file");
+                Ui.printReadFileAddTaskError();
             } catch (InvalidDateException e) {
-                System.out.println("Problem adding task due to incorrect date input");
+                Ui.printReadFileDateError();
             }
         }
-        System.out.println("... Storage file content loaded!");
+        Ui.printDoneLoading();
     }
 }

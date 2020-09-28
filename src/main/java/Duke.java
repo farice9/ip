@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * An interactive bot that performs various tasks based on user command
  * <p>
- * Last updated : 15 September 2020
+ * Last updated : 28 September 2020
  * <p>
  * Functions implemented:
  * 1) Adding tasks to a list
@@ -50,7 +50,7 @@ public class Duke {
         // Repeatedly receive user command until "bye" is given
         do {
             // Collect user's command
-            command = inputCommand();
+            command = Ui.inputCommand();
             commandModified = command.trim().toLowerCase();
 
             // Checks if the command is "bye"
@@ -63,7 +63,7 @@ public class Duke {
 
             // Prints the list of tasks stored if "list" is called
             if (commandModified.equals("list")) {
-                printList(listOfTasks);
+                Ui.printList(listOfTasks);
             } else if (commandModified.contains("done")) {
                 // Update done status for indicated task
                 doneTask(command, listOfTasks);
@@ -117,7 +117,7 @@ public class Duke {
                 listOfTasks.add(new ToDo(task));
                 listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
-                botSpeak("☹ OH NO! The description of todo cannot be empty!");
+                Ui.printEmptyTodoError();
             }
             break;
         case DEADLINE:
@@ -126,9 +126,9 @@ public class Duke {
                 listOfTasks.add(new Deadline(command));
                 listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
-                botSpeak("☹ OH NO! The description of deadline cannot be empty!");
+                Ui.printEmptyDeadlineDescriptionError();
             } catch (InvalidDateException e) {
-                botSpeak("No date is found for this deadline! Try adding a date after /by");
+                Ui.printEmptyDeadlineDateError();
             }
             break;
         case EVENT:
@@ -136,9 +136,9 @@ public class Duke {
                 listOfTasks.add(new Event(command));
                 listOfTasks.get(taskCount).printAddResult();
             } catch (InvalidCommandException e) {
-                botSpeak("☹ OH NO! The description of event cannot be empty!");
+                Ui.printEmptyEventDescriptionError();
             } catch (InvalidDateException e) {
-                botSpeak("No date is found for this event! Try adding a date after /at");
+                Ui.printEmptyEventDateError();
             }
             break;
         default:
@@ -194,47 +194,12 @@ public class Duke {
                 listOfTasks.remove(taskIndex);
                 Task.reduceNumberOfTasks();
 
-                printDeleteResult(taskToBeRemoved);
+                Ui.printDeleteResult(taskToBeRemoved);
             } else {
-                botSpeak("Task not found! Nothing is there to be deleted");
+                Ui.printDeleteTaskNotFoundError();
             }
         } else {
-            botSpeak("No index number detected. Please try again!");
-        }
-    }
-
-    /**
-     * Prints the result if the task is deleted successfully
-     *
-     * @param taskToBeRemoved Task indicated to be removed
-     */
-    private static void printDeleteResult(Task taskToBeRemoved) {
-        printDivider();
-        System.out.println("Noted! I have removed the task requested:");
-        System.out.println(taskToBeRemoved);
-        System.out.println("Now you have " + Task.numberOfTasks + " task(s) in the list.");
-        printDivider();
-    }
-
-    /**
-     * Prints out the list of tasks stored
-     *
-     * @param listOfTasks Array containing tasks inserted by user
-     */
-    public static void printList(ArrayList<Task> listOfTasks) {
-        int taskCount = Task.getNumberOfTasks();
-
-        // Notify the user if no tasks has been added yet
-        if (taskCount == 0) {
-            botSpeak("No tasks has been added yet. Try adding something!");
-        } else {
-            // Prints out the list of commands with respective index number
-            printDivider();
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < taskCount; i++) {
-                System.out.println((i + 1) + "." + listOfTasks.get(i));
-            }
-            printDivider();
+            Ui.printIndexInputNotDetectedError();
         }
     }
 
@@ -256,10 +221,10 @@ public class Duke {
             if ((taskIndex >= 0) && (taskIndex < taskCount)) {
                 markAsDone(listOfTasks, taskIndex);
             } else {
-                botSpeak("Task not found. Make sure you input the correct task index number!");
+                Ui.printInvalidDoneIndexError();
             }
         } else {
-            botSpeak("No index number detected. Please try again!");
+            Ui.printIndexInputNotDetectedError();
         }
     }
 
@@ -272,12 +237,11 @@ public class Duke {
     private static void markAsDone(ArrayList<Task> listOfTasks, int taskIndex) {
         // Inform the user if the task input has already been done
         if (listOfTasks.get(taskIndex).isDone) {
-            botSpeak("This task has already been done! Good luck completing others!!!");
+            Ui.printTaskAlreadyDoneMessage();
         } else {
             // Mark the task as done
             listOfTasks.get(taskIndex).isDone = true;
-            botSpeak("Good job! I have marked this task as done:\n"
-                    + listOfTasks.get(taskIndex));
+            Ui.printMarkAsDoneMessage(listOfTasks, taskIndex);
         }
     }
 
@@ -310,18 +274,4 @@ public class Duke {
     }
 
 
-
-
-
-    /**
-     * Allows user to input command
-     */
-    public static String inputCommand() {
-        String command;
-        Scanner in = new Scanner(System.in);
-
-        command = in.nextLine();
-
-        return command;
-    }
 }
