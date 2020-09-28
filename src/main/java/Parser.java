@@ -1,9 +1,12 @@
+/**
+ * Helps process and identify commands input from the user
+ */
 public class Parser {
 
     /**
      * Identify the type of command inserted by the user
      *
-     * @param command raw input from the user
+     * @param command Raw command input from the user
      * @return command types of the input
      */
     public static CommandType getCommandType(String command) {
@@ -22,6 +25,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Process the line from the data file to identify the
+     * type of task in that line
+     *
+     * @param line data from the file
+     * @return task type for that line (event, deadline, todo)
+     */
     public static TaskType getTaskTypeFromFile(String line) {
         // Checks the type of the task given
         if (line.startsWith(Symbols.TODO_INDICATOR)) {
@@ -38,7 +48,7 @@ public class Parser {
     /**
      * Identifies and return the type of task the user has inserted
      *
-     * @param command Command that the user input
+     * @param command Raw command input from the user
      * @return the type of the task (event, deadline, todo)
      */
     public static TaskType getTaskType(String command) {

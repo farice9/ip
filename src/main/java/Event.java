@@ -17,6 +17,7 @@ public class Event extends Task {
         // "/" indicates where the date input begins
         int dateStringIndex = description.indexOf("/");
 
+        // Throws exception at the absence of date
         if (dateStringIndex < 0) {
             throw new InvalidDateException();
         } else {

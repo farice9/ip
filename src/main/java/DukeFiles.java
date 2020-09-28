@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Contains all the methods required for file processing
+ */
 public class DukeFiles {
     private static final String dukeFilepath = "tasks.txt";
 
@@ -89,7 +92,14 @@ public class DukeFiles {
         Ui.printDoneLoading();
     }
 
-
+    /**
+     * Extract the event description from the line in the file
+     * to help create a new event task in ArrayList
+     *
+     * @param line data from the file
+     * @param taskDetail detail of the event
+     * @return the description formatted to be easily add into ArrayList when builder is called
+     */
     public static String getEventDescription(String line, String taskDetail) {
         // Get the date indicated between "at:" and ")"
         String date = line.substring((line.indexOf("at:") + "at:".length()), line.indexOf(")")).trim();
@@ -97,6 +107,14 @@ public class DukeFiles {
         return "event " + taskDetail.trim() + "/at" + date;
     }
 
+    /**
+     * Extract the deadline description from the line in the file
+     * to help create a new event task in ArrayList
+     *
+     * @param line data from the file
+     * @param taskDetail detail of the deadline
+     * @return the description formatted to be easily add into ArrayList when builder is called
+     */
     public static String getDeadlineDescription(String line, String taskDetail) {
         // Get the date indicated between "by:" and ")"
         String date = line.substring((line.indexOf("by:") + "by:".length()), line.indexOf(")")).trim();
@@ -105,7 +123,7 @@ public class DukeFiles {
     }
 
     /**
-     * // Update the txt file if something is added/deleted/marked as done
+     * Update the txt file if changes occur to the listOfTasks
      *
      * @param listOfTasks ArrayList containing list of tasks
      * @param isListModified boolean flag to detect if any changes occured to the list

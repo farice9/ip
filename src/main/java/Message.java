@@ -1,3 +1,6 @@
+/**
+ * Contains messages to be printed in the user interface
+ */
 public class Message {
     /**
      * Messages involved when loading data file

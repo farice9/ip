@@ -1,7 +1,7 @@
 /**
  * The Task class contains different attributes of a task stored by user
  *
- * Attributes : description of the task, is the task done
+ * Parent class of deadline, event and todo classes
  */
 public class Task {
     protected String description;
@@ -36,16 +36,16 @@ public class Task {
     }
 
     /**
-     * To obtain the boxed status icon to be printed
+     * Returns the boxed status icon to indicate if the task is done
      *
      * @return the boxed status icon of the task (tick / cross)
      */
     public String getStatusIcon() {
-        return (isDone ? Symbols.BOXED_TICK : Symbols.BOXED_CROSS); //return boxed tick or cross symbols
+        return (isDone ? Symbols.BOXED_TICK : Symbols.BOXED_CROSS);
     }
 
     /**
-     * To obtain the number of tasks created
+     * Returns the number of tasks created
      *
      * @return the number of tasks created
      */
@@ -55,7 +55,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return this.getStatusIcon() + this.description;
+        return this.getStatusIcon() + " " + this.description;
     }
 
     /**
@@ -65,10 +65,16 @@ public class Task {
         System.out.println("Now you have " + numberOfTasks + " task(s) in the list.");
     }
 
+    /**
+     * Reduce the total number of tasks indicated in the list
+     */
     public static void reduceNumberOfTasks() {
         numberOfTasks--;
     }
 
+    /**
+     * Mark the task as done by changing the isDone status
+     */
     public void doneTask() {
         this.isDone = true;
     }

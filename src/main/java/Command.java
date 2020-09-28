@@ -1,21 +1,29 @@
 import java.util.ArrayList;
 
+/**
+ * Contains a method to execute different functions of Duke
+ */
 public class Command {
+    /**
+     * Runs different functions of Duke based on the command type
+     * and updates the data file if the array list is updated
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     * @param command Raw command input from the user
+     * @param commandType Type of the command
+     */
     public static void executeCommand(ArrayList<Task> listOfTasks, String command, CommandType commandType) {
         boolean isListModified = (commandType == CommandType.DONE || commandType == CommandType.DELETE
                 || commandType == CommandType.TASK);
 
-        // Prints the list of tasks stored if "list" is called
         if (commandType == CommandType.LIST) {
             Ui.printList(listOfTasks);
         } else if (commandType == CommandType.DONE) {
             // Update done status for indicated task
             TaskList.doneTask(command, listOfTasks);
         } else if (commandType == CommandType.DELETE) {
-            // Delete the indicated task
             TaskList.deleteTask(listOfTasks, command);
         } else if (commandType == CommandType.TASK) {
-            // Store the command into the ArrayList as a task if it's none of the above
             try {
                 TaskList.addTask(command, listOfTasks);
             } catch (InvalidCommandException e) {
