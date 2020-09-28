@@ -87,4 +87,20 @@ public class DukeFiles {
         }
         Ui.printDoneLoading();
     }
+
+    /**
+     * // Update the txt file if something is added/deleted/marked as done
+     *
+     * @param listOfTasks ArrayList containing list of tasks
+     * @param isListModified boolean flag to detect if any changes occured to the list
+     */
+    public static void updateFile(ArrayList<Task> listOfTasks, boolean isListModified) {
+        if (isListModified) {
+            try {
+                writeToFile(listOfTasks);
+            } catch (IOException e) {
+                Ui.printWriteFileError();
+            }
+        }
+    }
 }

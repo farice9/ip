@@ -16,7 +16,7 @@ public class Ui {
         System.out.println(Message.LOADING_ERROR);
     }
 
-    public static void greet() {
+    public static void printGreeting() {
         printDivider();
         System.out.println(Message.GREET);
         printUserGuide();
