@@ -30,15 +30,6 @@ public class Duke {
     }
 
     /**
-     * Main function
-     */
-    public static void main(String[] args) {
-        ArrayList<Task> listOfTasks = new ArrayList<>();
-        new Duke(listOfTasks);
-        run(listOfTasks);
-    }
-
-    /**
      * Process the commands given by the user
      *
      * @param listOfTasks ArrayList containing list of tasks
@@ -58,5 +49,14 @@ public class Duke {
             Command.executeCommand(listOfTasks, command, commandType);
         } while (!saidBye);
         Ui.printGoodbye();
+    }
+
+    /**
+     * Main function
+     */
+    public static void main(String[] args) {
+        ArrayList<Task> listOfTasks = new ArrayList<>();
+        new Duke(listOfTasks);
+        run(listOfTasks);
     }
 }

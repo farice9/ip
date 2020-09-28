@@ -1,10 +1,8 @@
 import java.util.ArrayList;
 
 public class TaskList {
-
-
     /**
-     * Allows user to mark tasks as done
+     * Process user's command to mark task as done
      *
      * @param command     The command input by user
      * @param listOfTasks Array containing tasks inserted by user
@@ -17,8 +15,10 @@ public class TaskList {
             // Extract the index number of the task to be marked as done
             int taskIndex = Integer.parseInt(command.substring(taskIndexPosition).trim()) - 1;
 
-            // Make task as done if the task index inputted is at least 0 and less than the number of tasks inserted
-            if ((taskIndex >= 0) && (taskIndex < taskCount)) {
+            // Mark task as done if the task index inputted is at least 0 and less than the number of tasks inserted
+            boolean isTaskIndexWithinRange = ((taskIndex >= 0) && (taskIndex < taskCount));
+
+            if (isTaskIndexWithinRange) {
                 markAsDone(listOfTasks, taskIndex);
             } else {
                 Ui.printInvalidDoneIndexError();
@@ -40,7 +40,7 @@ public class TaskList {
             Ui.printTaskAlreadyDoneMessage();
         } else {
             // Mark the task as done
-            listOfTasks.get(taskIndex).isDone = true;
+            listOfTasks.get(taskIndex).doneTask();
             Ui.printMarkAsDoneMessage(listOfTasks, taskIndex);
         }
     }
@@ -94,39 +94,51 @@ public class TaskList {
         // Creates new object based on the type of the task
         switch (taskType) {
         case TODO:
-            // Extract the string after "todo"
-            task = command.trim().substring("todo".length()).trim();
-            try {
-                listOfTasks.add(new ToDo(task));
-                listOfTasks.get(taskCount).printAddResult();
-            } catch (InvalidCommandException e) {
-                Ui.printEmptyTodoError();
-            }
+            addTodoTask(command, listOfTasks, taskCount);
             break;
         case DEADLINE:
-            // Command inserted by user will be processed and added into the list of tasks
-            try {
-                listOfTasks.add(new Deadline(command));
-                listOfTasks.get(taskCount).printAddResult();
-            } catch (InvalidCommandException e) {
-                Ui.printEmptyDeadlineDescriptionError();
-            } catch (InvalidDateException e) {
-                Ui.printEmptyDeadlineDateError();
-            }
+            addDeadlineTask(command, listOfTasks, taskCount);
             break;
         case EVENT:
-            try {
-                listOfTasks.add(new Event(command));
-                listOfTasks.get(taskCount).printAddResult();
-            } catch (InvalidCommandException e) {
-                Ui.printEmptyEventDescriptionError();
-            } catch (InvalidDateException e) {
-                Ui.printEmptyEventDateError();
-            }
+            addEventTask(command, listOfTasks, taskCount);
             break;
         default:
             // Exception due to non-specific task type
             throw new InvalidCommandException();
+        }
+    }
+
+    public static void addEventTask(String command, ArrayList<Task> listOfTasks, int taskCount) {
+        try {
+            listOfTasks.add(new Event(command));
+            listOfTasks.get(taskCount).printAddResult();
+        } catch (InvalidCommandException e) {
+            Ui.printEmptyEventDescriptionError();
+        } catch (InvalidDateException e) {
+            Ui.printEmptyEventDateError();
+        }
+    }
+
+    public static void addDeadlineTask(String command, ArrayList<Task> listOfTasks, int taskCount) {
+        try {
+            listOfTasks.add(new Deadline(command));
+            listOfTasks.get(taskCount).printAddResult();
+        } catch (InvalidCommandException e) {
+            Ui.printEmptyDeadlineDescriptionError();
+        } catch (InvalidDateException e) {
+            Ui.printEmptyDeadlineDateError();
+        }
+    }
+
+    public static void addTodoTask(String command, ArrayList<Task> listOfTasks, int taskCount) {
+        String task;
+        // Extract the string after "todo"
+        task = command.trim().substring("todo".length()).trim();
+        try {
+            listOfTasks.add(new ToDo(task));
+            listOfTasks.get(taskCount).printAddResult();
+        } catch (InvalidCommandException e) {
+            Ui.printEmptyTodoError();
         }
     }
 }

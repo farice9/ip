@@ -9,6 +9,7 @@ public class Message {
     public static final String READ_FILE_ADD_TASK_ERROR = "Problem adding this task from storage file";
     public static final String READ_FILE_DATE_ERROR = "Problem adding task due to incorrect date input";
     public static final String WRITE_FILE_ERROR = "There's a problem with writing the file";
+    public static final String CREATE_NEW_FILE =  "File not found, creating one now!";
 
     /**
      * Simple interaction messages
@@ -27,17 +28,26 @@ public class Message {
     public static final String EMPTY_EVENT_DATE_ERROR = "No date is found for this event! Try adding a date after /at";
 
     /**
-     * Error messages when deleting tasks
+     * Error messages when using "delete" function
      */
     public static final String DELETE_TASK_NOT_FOUND_ERROR = "Task not found! Nothing is there to be deleted";
     public static final String INDEX_INPUT_NOT_DETECTED_ERROR = "No index number input detected. Please try again!";
 
+    /**
+     * Messages when using "list" function
+     */
     public static final String EMPTY_TASK_LIST_MESSAGE = "No tasks has been added yet. Try adding something!";
 
+    /**
+     * Messages when using "done" function
+     */
     public static final String INVALID_DONE_INDEX_ERROR = "Task not found. Nothing is marked as done. Check your task index number input!";
     public static final String TASK_ALREADY_DONE_MESSAGE = "This task has already been done! Good luck completing others!!!";
     public static final String MARK_AS_DONE_MESSAGE = "Good job! I have marked this task as done:";
 
+    /**
+     * Graphics involved in the UI
+     */
     public static final String LINE_DIVIDER = "*******************************************************************************";
 
     public static final String USER_COMMAND_GUIDE =

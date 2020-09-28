@@ -148,5 +148,8 @@ public class Ui {
         System.out.println(Message.READ_FILE_DATE_ERROR);
     }
 
+    public static void printCreateNewFile() {
+        System.out.println(Message.CREATE_NEW_FILE);
+    }
 
 }

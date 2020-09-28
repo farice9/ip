@@ -36,12 +36,12 @@ public class Task {
     }
 
     /**
-     * To obtain the status icon to be printed
+     * To obtain the boxed status icon to be printed
      *
-     * @return the status icon of the task (tick / cross)
+     * @return the boxed status icon of the task (tick / cross)
      */
     public String getStatusIcon() {
-        return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
+        return (isDone ? Symbols.BOXED_TICK : Symbols.BOXED_CROSS); //return boxed tick or cross symbols
     }
 
     /**
@@ -55,7 +55,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() + "] " + this.description;
+        return this.getStatusIcon() + this.description;
     }
 
     /**
@@ -67,5 +67,9 @@ public class Task {
 
     public static void reduceNumberOfTasks() {
         numberOfTasks--;
+    }
+
+    public void doneTask() {
+        this.isDone = true;
     }
 }

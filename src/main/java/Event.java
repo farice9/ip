@@ -30,6 +30,6 @@ public class Event extends Task {
 
     @Override
     public String toString(){
-        return "[E]" + super.toString() + " (at: " + this.date + ")";
+        return Symbols.EVENT_INDICATOR + super.toString() + " (at: " + this.date + ")";
     }
 }

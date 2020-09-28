@@ -35,7 +35,7 @@ public class DukeFiles {
         } catch (FileNotFoundException e) {
             File f = new File(dukeFilepath);
             f.createNewFile();
-            System.out.println("File not found, creating one now!");
+            Ui.printCreateNewFile();
         }
     }
 
@@ -55,20 +55,20 @@ public class DukeFiles {
             String line = s.nextLine();
 
             int taskCount = Task.getNumberOfTasks();
-            int initialLength = "[T][ ]".length();
+            int initialLength = "[ ][ ]".length();
             String description;
             String date;
 
             try {
-                if (line.startsWith("[T]")) {
+                if (line.startsWith(Symbols.TODO_INDICATOR)) {
                     listOfTasks.add(new ToDo(line.substring(initialLength).trim()));
                 } else {
                     String taskDetail = line.substring(initialLength, line.indexOf("(", initialLength)).trim();
-                    if (line.startsWith("[D]")) {
+                    if (line.startsWith(Symbols.DEADLINE_INDICATOR)) {
                         date = line.substring((line.indexOf("by:") + "by:".length()), line.indexOf(")")).trim();
                         description = "deadline " + taskDetail.trim() + "/by" + date;
                         listOfTasks.add(new Deadline(description));
-                    } else if (line.startsWith("[E]")) {
+                    } else if (line.startsWith(Symbols.EVENT_INDICATOR)) {
                         date = line.substring((line.indexOf("at:") + "at:".length()), line.indexOf(")")).trim();
                         description = "event " + taskDetail.trim() + "/at" + date;
                         listOfTasks.add(new Event(description));
@@ -76,7 +76,7 @@ public class DukeFiles {
                         Ui.printReadFileIdentificationError();
                     }
                 }
-                if (line.contains("\u2713")) {
+                if (line.contains(Symbols.BOXED_TICK)) {
                     listOfTasks.get(taskCount).isDone = true;
                 }
             } catch (InvalidCommandException e) {
