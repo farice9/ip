@@ -28,35 +28,11 @@ public class Duke {
         try {
             DukeFiles.initializeFile(listOfTasks);
         } catch (IOException e) {
-            System.out.println("Oh no! There's a problem loading file content");
+            Ui.printLoadingError();
         }
-        greet();
+        Ui.greet();
         processCommand(listOfTasks);
-        exit();
-    }
-
-    /**
-     * Prints greet user message and a simple user guide
-     */
-    public static void greet() {
-        printDivider();
-        System.out.println("Hey mate! Nice to meet you, I'm Duke!\nHow can I help you?\n");
-        System.out.println("Here are some commands you can use to interact with me:\n" +
-                "todo <task>                : Store what needs to be done \n" +
-                "deadline <task> /by <date> : Keep track of your deadlines!\n" +
-                "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
-                "list                       : To list out all the tasks you have so far\n" +
-                "done <integer number>      : To mark a task as done\n" +
-                "delete <integer number>    : To delete a task from the list\n");
-        System.out.println("Go ahead!");
-        printDivider();
-    }
-
-    /**
-     * Prints goodbye message
-     */
-    public static void exit() {
-        botSpeak("Goodbye & have a nice day! Hope to see you again!");
+        Ui.printGoodbye();
     }
 
     /**
@@ -103,7 +79,7 @@ public class Duke {
                     isListModified = true;
                 } catch (InvalidCommandException e) {
                     // Informs user when command is inserted without stating the type of task
-                    botSpeak("☹ Sorry but I don't understand that at all. Try again?");
+                    Ui.printInvalidTaskType();
                 }
             }
 
@@ -112,7 +88,7 @@ public class Duke {
                 try {
                     DukeFiles.writeToFile(listOfTasks);
                 } catch (IOException e) {
-                    System.out.println("There's a problem with writing the file");
+                    Ui.printWriteFileError();
                 }
             }
         } while (!saidBye);
@@ -333,23 +309,9 @@ public class Duke {
         return true;
     }
 
-    /**
-     * Prints out what the bot says with divider on top and bottom
-     *
-     * @param sentence String to be printed
-     */
-    public static void botSpeak(String sentence) {
-        printDivider();
-        System.out.println(sentence);
-        printDivider();
-    }
 
-    /**
-     * Prints the line divider
-     */
-    public static void printDivider() {
-        System.out.println("*******************************************************************************");
-    }
+
+
 
     /**
      * Allows user to input command
