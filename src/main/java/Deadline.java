@@ -33,25 +33,8 @@ public class Deadline extends Task {
             this.description = description.trim().substring("deadline".length(), dateStringIndex).trim();
             this.date = description.substring(dateStringIndex + "/by".length()).trim();
 
-            formatDate();
+            this.dateFormatted = Parser.formatDate(date, localDate);
             numberOfTasks++;
-        }
-    }
-
-    public void formatDate() {
-        try {
-            // Parse date into LocalDate based on different formats
-            if (Parser.startsWithMonth(date)) {
-                // Occurs when parsing date in data file
-                localDate = LocalDate.parse(this.date, DateTimeFormatter.ofPattern("MMM d yyyy"));
-            } else {
-                localDate = LocalDate.parse(this.date);
-            }
-            // To be printed in "MMM d yyyy" format later
-            this.dateFormatted = localDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-        } catch(DateTimeParseException e) {
-            // Print the raw date input if non-parsable format detected
-            this.dateFormatted = this.date;
         }
     }
 
