@@ -34,7 +34,7 @@ Command      |   Function
 
 ## Starting the Program
 ### Prerequisites
-* Your computer should have Java 11 to run this application
+* Your computer requires Java 11 to run this application
 
 ### Procedure 
 1. Download the _iP.jar_ file from **Releases** and put it in an empty folder
@@ -53,7 +53,7 @@ The following are the symbols you will commonly see in the application:
 * ![](Images/tick.png) - Indicates that the task is done
 * ![](Images/cross.png) - Indicates that the task is not done
 
-### `help` - Prints command list
+### Prints command list - `help`
 This command will provide the list of commands
 that you can call in Duke.
 
@@ -66,7 +66,7 @@ Expected outcome:
 ![help list](Images/help.png)
 
 
-### `todo` - Adds a todo task
+### Adds a todo task - `todo`
 This command will add a new _todo_ task into the list and inform
 user how many tasks are there in the list.
 
@@ -82,7 +82,7 @@ Expected outcome:
 
 ![](Images/todo.png)
 
-### `deadline` - Adds a deadline task
+### Adds a deadline task - `deadline` 
 
 This command will add a new _deadline_ task into the list and inform
 user how many tasks are there in the list.
@@ -103,7 +103,7 @@ Expected outcome:
 
 ![](Images/deadline.png)
 
-### `event` - Adds an event task
+### Adds an event task - `event`
 
 This command will add a new _event_ task into the list and inform
 user how many tasks are there in the list.
@@ -124,7 +124,7 @@ Expected outcome:
 
 ![](Images/event.png)
 
-### `list` - List down stored tasks
+### List down stored tasks - `list` 
 
 This command will print out the list of tasks stored in
 the application.
@@ -137,7 +137,7 @@ Expected outcome:
 
 ![](Images/list.png)
 
-### `done` - Mark task as done
+### Mark task as done - `done`
 
 This command will mark the indicated task in the list as done,
 provided that the task exist at that index number.
@@ -154,7 +154,7 @@ Expected outcome:
 
 ![](Images/done.png)
 
-### `delete` - Delete task
+### Delete task - `delete`
 
 This command will delete the indicated task from the list.
 
@@ -170,7 +170,7 @@ Expected outcome:
 
 ![](Images/delete.png)
 
-### `find` - Find tasks
+### Find task - `find`
 
 This command allows you to find the tasks in the list with 
 the corresponding keyword.
@@ -187,7 +187,7 @@ Expected outcome:
 
 ![](Images/find.png)
 
-### `bye` - Exits the application
+### Exits the application - `bye` 
 
 This command allows you to exit from the application
 
