@@ -100,9 +100,16 @@ public class Ui {
         botSpeak(Message.EMPTY_DEADLINE_DATE_ERROR);
     }
 
+    /**
+     * Informs user when event task is called without description
+     */
     public static void printEmptyEventDescriptionError() {
         botSpeak(Message.EMPTY_EVENT_DESCRIPTION_ERROR);
     }
+
+    /**
+     * Informs user when event task is called without date
+     */
     public static void printEmptyEventDateError() {
         botSpeak(Message.EMPTY_EVENT_DATE_ERROR);
     }
@@ -184,8 +191,6 @@ public class Ui {
             printDivider();
         }
     }
-
-
 
     /**
      * Informs user the file is being loaded onto the array list
