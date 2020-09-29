@@ -1,5 +1,5 @@
 /**
- * Constant strings for frequenlty used symbols
+ * Contains frequently used symbols
  */
 public class Symbols {
     // Indicator used for each task type when writing into the array list

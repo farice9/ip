@@ -4,7 +4,7 @@ import java.util.Scanner;
 /**
  * Contains all the methods needed for user to interact with Duke
  *
- * Helps receive command input from the user and handles all the printing of messages
+ * Handles the receiving of command inputs from the user and the printing of messages
  */
 public class Ui {
 

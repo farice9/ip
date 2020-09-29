@@ -1,5 +1,5 @@
 /**
- * Helps process and identify commands input from the user
+ * Helps process and identify command inputs from the user
  */
 public class Parser {
 
