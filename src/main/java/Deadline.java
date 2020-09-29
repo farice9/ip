@@ -1,16 +1,8 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-
 /**
  * Subclass of Task, for tasks with deadline
  */
 public class Deadline extends Task {
     protected String date;
-    protected LocalDate localDate;
-    protected String dateFormatted;
-    protected String[] monthsHeaders = new String[] {"Jan", "Feb", "Mar"};
 
     /**
      * Builds a new Deadline task
@@ -33,13 +25,12 @@ public class Deadline extends Task {
             this.description = description.trim().substring("deadline".length(), dateStringIndex).trim();
             this.date = description.substring(dateStringIndex + "/by".length()).trim();
 
-            this.dateFormatted = Parser.formatDate(date, localDate);
             numberOfTasks++;
         }
     }
 
     @Override
     public String toString(){
-        return Symbols.DEADLINE_INDICATOR + super.toString() + " (by: " + this.dateFormatted + ")";
+        return Symbols.DEADLINE_INDICATOR + super.toString() + " (by: " + this.date + ")";
     }
 }

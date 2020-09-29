@@ -1,7 +1,3 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
 /**
  * Helps process and identify commands input from the user
  */
@@ -97,58 +93,5 @@ public class Parser {
             }
         }
         return true;
-    }
-
-    /**
-     * Checks if the date starts with the 3-letter month abbreviation
-     *
-     * @param date String containing the date specified
-     * @return true if it starts with month and false otherwise
-     */
-    public static boolean startsWithMonth(String date) {
-        String[] monthList = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-                "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-        for (String month : monthList) {
-            if (date.startsWith(month)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Parses the date from string into a LocalDate object if the format is correct
-     *
-     * @param date String containing the date specified
-     * @return LocalDate object containing date information
-     */
-    public static LocalDate parseDate(String date) throws DateTimeParseException {
-        if (Parser.startsWithMonth(date)) {
-            // Occurs when parsing date in data file
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern("MMM d yyyy"));
-        } else {
-            return LocalDate.parse(date);
-        }
-    }
-
-    /**
-     * Parse the date into LocalDate if it is the correct format and return
-     * the date in correct format to be printed
-     *
-     * @param date String containing the date specified
-     * @param localDate LocalDate object passed in
-     * @return date in the correct format
-     */
-    public static String formatDate(String date, LocalDate localDate) {
-        try {
-            // Parse date into LocalDate based on different formats
-            localDate = parseDate(date);
-            // To be printed in "MMM d yyyy" format later
-            return localDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-        } catch(DateTimeParseException e) {
-            // Returns the raw date input if non-parsable format detected
-            return date;
-        }
     }
 }
