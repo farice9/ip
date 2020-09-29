@@ -49,6 +49,6 @@ public class Message {
             "done <index number>        : Marks task as done\n" +
             "delete <index number>      : Deletes the indicated task from the list\n" +
             "find <keyword>             : Find tasks with the keyword\n" +
-            "bye                        : Exits this application\n"+
+            "bye                        : Exits this application\n" +
             "\nNote: Insert <date> in YYYY-MM-DD format for me to understand it!\n";
 }
