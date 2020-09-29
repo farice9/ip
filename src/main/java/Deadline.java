@@ -1,7 +1,4 @@
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 
 /**
  * Subclass of Task, represents tasks with deadline,
@@ -11,7 +8,6 @@ public class Deadline extends Task {
     protected String date;
     protected LocalDate localDate;
     protected String dateFormatted;
-    protected String[] monthsHeaders = new String[] {"Jan", "Feb", "Mar"};
 
     /**
      * Builds a new Deadline task

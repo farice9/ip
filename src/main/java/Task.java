@@ -1,6 +1,6 @@
 /**
  * Represents the task that the user can store, information such as
- * description of the task and whether the task is done is stored
+ * description of the task and whether the task is done are stored
  *
  * Parent class of deadline, event and todo classes
  */
