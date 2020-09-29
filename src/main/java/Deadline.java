@@ -4,7 +4,8 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Subclass of Task, for tasks with deadline
+ * Subclass of Task, represents tasks with deadline,
+ * a date information is stored under this class
  */
 public class Deadline extends Task {
     protected String date;

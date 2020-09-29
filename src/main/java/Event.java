@@ -3,7 +3,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Subclass of Task, for events happening on certain time
+ * Subclass of Task, represents events happening on certain time,
+ * the date information is stored under this class
  */
 public class Event extends Task {
     protected String date;
