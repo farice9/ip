@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Contains all the methods required for file processing
+ * Contains all the methods required for file processing which involves
+ * loading and writing to the date file
  */
 public class DukeFiles {
     private static final String dukeFilepath = "tasks.txt";

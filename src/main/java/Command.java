@@ -13,6 +13,7 @@ public class Command {
      * @param commandType Type of the command
      */
     public static void executeCommand(ArrayList<Task> listOfTasks, String command, CommandType commandType) {
+        // list if modified if there are done/delete/add task operations
         boolean isListModified = (commandType == CommandType.DONE || commandType == CommandType.DELETE
                 || commandType == CommandType.TASK);
 

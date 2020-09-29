@@ -6,9 +6,7 @@ import java.util.ArrayList;
 
 /**
  * An interactive bot that performs various tasks based on user command
- * <p>
- * Last updated : 28 September 2020
- * <p>
+ *
  * Functions implemented:
  * 1) Adding tasks to a list
  * 2) Printing the list of tasks stored
@@ -19,7 +17,6 @@ import java.util.ArrayList;
  */
 
 public class Duke {
-
     /**
      * Initialize by loading the saved file content onto the ArrayList
      *
@@ -35,8 +32,8 @@ public class Duke {
     }
 
     /**
-     * Runs the entire process of the interactive bot
-     * Receives and processes command by the user
+     * Runs the entire process of the interactive bot,
+     * receives and processes command by the user
      *
      * @param listOfTasks ArrayList containing list of tasks
      */
@@ -58,7 +55,7 @@ public class Duke {
     }
 
     /**
-     * Main function
+     * Main function the program runs
      */
     public static void main(String[] args) {
         ArrayList<Task> listOfTasks = new ArrayList<>();
