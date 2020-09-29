@@ -20,6 +20,8 @@ public class Parser {
             return CommandType.DONE;
         } else if (commandModified.startsWith("delete")) {
             return CommandType.DELETE;
+        } else if (commandModified.startsWith("find")) {
+            return CommandType.FIND;
         } else {
             return CommandType.TASK;
         }

@@ -54,7 +54,7 @@ public class TaskList {
      * @param listOfTasks ArrayList containing the list of task
      * @param command Raw command input from the user
      */
-    public static void deleteTask(ArrayList<Task> listOfTasks, String command) {
+    public static void deleteTask(String command, ArrayList<Task> listOfTasks) {
         int taskCount = Task.getNumberOfTasks();
         int taskIndexPosition = command.toLowerCase().indexOf("delete") + "delete".length();
 
@@ -165,5 +165,32 @@ public class TaskList {
         } catch (InvalidCommandException e) {
             Ui.printEmptyTodoError();
         }
+    }
+
+    /**
+     * Finds the tasks with the keyword specified by the user and prints
+     * the result of the search
+     *
+     * @param command Raw command input from the user
+     * @param listOfTasks ArrayList containing list of tasks
+     */
+    public static void findTask (String command, ArrayList<Task> listOfTasks) {
+        ArrayList<Task> listOfTasksFound = new ArrayList<>();
+
+        int taskCount = Task.getNumberOfTasks();
+
+        int keywordIndex = "find".length();
+        String keyword = command.trim().substring(keywordIndex).trim();
+
+        // Go through the entire list to find if the task description contains the keyword
+        for (int i = 0; i < taskCount ; i++) {
+            Task currentTask = listOfTasks.get(i);
+            if (currentTask.description.contains(keyword)) {
+                listOfTasksFound.add(currentTask);
+            }
+        }
+
+        // Prints the list of tasks found (if any)
+        Ui.printFindTaskResult(listOfTasksFound, keyword);
     }
 }

@@ -193,6 +193,35 @@ public class Ui {
     }
 
     /**
+     * Prints the list of tasks containing the keyword inserted by the user or
+     * informs the user if there are no tasks found
+     *
+     * @param listOfTasksFound ArrayList containing the list of tasks with the keyword in its description
+     * @param keyword Keyword that the user is trying to find
+     */
+    public static void printFindTaskResult(ArrayList<Task> listOfTasksFound, String keyword) {
+        int listSize = listOfTasksFound.size();
+
+        printDivider();
+        // Indicates that there are no tasks found
+        if (listOfTasksFound.isEmpty()) {
+            Ui.printFindTaskEmptyError(keyword);
+        } else {
+            // Prints the list of result
+            System.out.println("Here are the tasks found with the keyword -- \"" + keyword + "\" :");
+            for (int i = 0; i < listSize ; i++) {
+                Task currentTask = listOfTasksFound.get(i);
+                System.out.println((i + 1) + "." + currentTask);
+            }
+        }
+        printDivider();
+    }
+
+    public static void printFindTaskEmptyError(String keyword) {
+        System.out.println("No task with the keyword -- \"" + keyword + "\" found!");
+    }
+
+    /**
      * Informs user the file is being loaded onto the array list
      */
     public static void printLoadingFile() {

@@ -22,7 +22,9 @@ public class Command {
             // Update done status for indicated task
             TaskList.doneTask(command, listOfTasks);
         } else if (commandType == CommandType.DELETE) {
-            TaskList.deleteTask(listOfTasks, command);
+            TaskList.deleteTask(command, listOfTasks);
+        } else if (commandType == CommandType.FIND) {
+            TaskList.findTask(command, listOfTasks);
         } else if (commandType == CommandType.TASK) {
             try {
                 TaskList.addTask(command, listOfTasks);
