@@ -20,6 +20,8 @@ public class Parser {
             return CommandType.BYE;
         } else if (commandModified.equals("list")) {
             return CommandType.LIST;
+        } else if (commandModified.equals("help")) {
+            return CommandType.HELP;
         } else if (commandModified.contains("done")) {
             return CommandType.DONE;
         } else if (commandModified.startsWith("delete")) {

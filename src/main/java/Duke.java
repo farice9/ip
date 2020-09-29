@@ -2,7 +2,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * An interactive bot that performs various tasks based on user command
+ * Duke is an interactive bot that helps user store their important
+ * tasks in a comprehensive list that the user can modify
  *
  * Functions implemented:
  * 1) Adding tasks to a list
@@ -11,6 +12,8 @@ import java.util.ArrayList;
  * 4) Different type of tasks (event, deadline, todo)
  * 5) Delete tasks
  * 6) Task storage onto a txt file
+ * 7) Find tasks that corresponds given keyword
+ * 8) Prints out user command guide
  */
 
 public class Duke {

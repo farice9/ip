@@ -41,6 +41,15 @@ public class Ui {
     }
 
     /**
+     * Prints the user command guide when "help" function is called
+     */
+    public static void printHelpGuide() {
+        printDivider();
+        System.out.println("Help arrives!\n");
+        printUserGuide();
+        printDivider();
+    }
+    /**
      * Prints the standard length divider
      */
     public static void printDivider() {

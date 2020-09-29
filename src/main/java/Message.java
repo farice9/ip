@@ -40,14 +40,15 @@ public class Message {
     public static final String LINE_DIVIDER = "*******************************************************************************";
 
     public static final String USER_COMMAND_GUIDE =
-            "Here are some commands you can use to interact with me:\n" +
-            "todo <task>                : Store what needs to be done \n" +
-            "deadline <task> /by <date> : Keep track of your deadlines!\n" +
+            "Here are the commands you can use to interact with me:\n" +
+            "help                       : Prints out a simple user command guide!\n" +
+            "todo <task>                : To store what needs to be done!\n" +
+            "deadline <task> /by <date> : To keep track of your deadlines!\n" +
             "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
-            "list                       : To list out all the tasks you have so far\n" +
-            "done <index number>        : To mark a task as done\n" +
-            "delete <index number>      : To delete a task from the list\n" +
-            "find <keyword>             : To find tasks with the keyword\n" +
-            "bye                        : To exit this application\n"+
+            "list                       : Lists out all the tasks you have so far\n" +
+            "done <index number>        : Marks task as done\n" +
+            "delete <index number>      : Deletes the indicated task from the list\n" +
+            "find <keyword>             : Find tasks with the keyword\n" +
+            "bye                        : Exits this application\n"+
             "\nNote: Insert <date> in YYYY-MM-DD format for me to understand it!\n";
 }

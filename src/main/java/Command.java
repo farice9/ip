@@ -19,6 +19,8 @@ public class Command {
 
         if (commandType == CommandType.LIST) {
             Ui.printList(listOfTasks);
+        } else if (commandType == CommandType.HELP) {
+            Ui.printHelpGuide();
         } else if (commandType == CommandType.DONE) {
             // Update done status for indicated task
             TaskList.doneTask(command, listOfTasks);

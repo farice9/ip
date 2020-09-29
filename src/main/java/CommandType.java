@@ -7,5 +7,6 @@ public enum CommandType {
     DELETE,
     TASK,
     FIND,
+    HELP,
     BYE
 }
