@@ -94,4 +94,18 @@ public class Parser {
         }
         return true;
     }
+
+    public static boolean startsWithMonth(String date) {
+        String[] monthList = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+                "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+        for (String month : monthList) {
+            if (date.startsWith(month)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
