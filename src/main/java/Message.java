@@ -59,6 +59,9 @@ public class Message {
             "deadline <task> /by <date> : Keep track of your deadlines!\n" +
             "event <task> /at <date>    : To keep in mind upcoming important events!\n" +
             "list                       : To list out all the tasks you have so far\n" +
-            "done <integer number>      : To mark a task as done\n" +
-            "delete <integer number>    : To delete a task from the list\n";
+            "done <index number>        : To mark a task as done\n" +
+            "delete <index number>      : To delete a task from the list\n" +
+            "find <keyword>             : To find tasks with the keyword\n" +
+            "bye                        : To exit this application\n"+
+            "\nNote: Insert <date> in YYYY-MM-DD format for me to understand it!\n";
 }
