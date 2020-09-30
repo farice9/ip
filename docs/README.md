@@ -41,7 +41,7 @@ Command      |   Function
 1. Open your computer's command prompt
 1. Change the directory of the command prompt to the folder containing _iP.jar_ file
 1. Type `java -jar ip.jar` into the command prompt and execute it
-1. The application is now running! You may now type in commands to interact with Duke. Have fun! :smile:
+1. The application is now running! You may now type in commands to interact with Duke. Have fun!
  
 ## Features
 
